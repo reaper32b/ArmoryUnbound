@@ -1,0 +1,150 @@
+﻿Key,File,Type,UsedInMainMenu,NoTranslate,english
+auPerkHardHitter,items,Item,,,Hard Hitter
+auPerkHardHitterDesc,items,Item,,,"+15-35% damage, by part quality."
+auPerkDeepWell,items,Item,,,Deep Well
+auPerkDeepWellDesc,items,Item,,,"+25-75% magazine size, by part quality."
+auPerkQuickhands,items,Item,,,Quickhands
+auPerkQuickhandsDesc,items,Item,,,"+15-40% reload speed, by part quality."
+auPerkIronclad,items,Item,,,Ironclad
+auPerkIroncladDesc,items,Item,,,"+50-150% durability, by part quality."
+auPerkExecutioner,items,Item,,,Executioner
+auPerkExecutionerDesc,items,Item,,,"+30-90% headshot damage, by part quality."
+auPerkSecondWind,items,Item,,,Second Wind
+auPerkSecondWindDesc,items,Item,,,"Kills restore 8-25 health, by part quality."
+auPerkBloodletter,items,Item,,,Bloodletter
+auPerkBloodletterDesc,items,Item,,,"Hits make the target bleed, 40-100% of the time by part quality."
+auPerkKindling,items,Item,,,Kindling
+auPerkKindlingDesc,items,Item,,,"Hits set the target on fire, 40-100% of the time by part quality."
+auPerkCanOpener,items,Item,,,Can Opener
+auPerkCanOpenerDesc,items,Item,,,"Ignores 20-50% of armour by part quality, and hits shred the target's armour."
+auPerkSledge,items,Item,,,Sledge
+auPerkSledgeDesc,items,Item,,,"10-30% chance per hit to knock the target down, by part quality."
+auPerkTarPit,items,Item,,,Tar Pit
+auPerkTarPitDesc,items,Item,,,"Hits slow the target down, 40-100% of the time by part quality."
+auPerkScholar,items,Item,,,Scholar
+auPerkScholarDesc,items,Item,,,"+10-35% XP while this gun is in your hands, by part quality."
+auPerkGlassCannon,items,Item,,,Glass Cannon
+auPerkGlassCannonDesc,items,Item,,,"+60-100% damage. Drawback: -40 to -10% durability. Better upside, smaller drawback at higher part quality."
+auPerkOverclock,items,Item,,,Overclock
+auPerkOverclockDesc,items,Item,,,"+40-70% fire rate. Drawback: +50 to +15% wear per shot. Better upside, smaller drawback at higher part quality."
+auPerkHungryMag,items,Item,,,Hungry Mag
+auPerkHungryMagDesc,items,Item,,,"+100-150% magazine size. Drawback: -25 to -5% reload speed. Better upside, smaller drawback at higher part quality."
+auPerkDeadeye,items,Item,,,Deadeye
+auPerkDeadeyeDesc,items,Item,,,"+120-200% headshot damage. Drawback: -20 to -5% damage to every other body part. Better upside, smaller drawback at higher part quality."
+auPerkBloodprice,items,Item,,,Bloodprice
+auPerkBloodpriceDesc,items,Item,,,"+50-80% damage, and kills heal 20-35. Drawback: starting a reload costs 5 to 1 health. Better upside, smaller drawback at higher part quality."
+auPerkLeech,items,Item,,,Leech
+auPerkLeechDesc,items,Item,,,"Hits heal you 10-20% of the damage dealt. Drawback: -15 to -5% max stamina while held. Better upside, smaller drawback at higher part quality."
+auPerkWildcat,items,Item,,,Wildcat
+auPerkWildcatDesc,items,Item,,,"+35-60% damage and +25-40% fire rate. Drawback: +60 to +20% recoil. Better upside, smaller drawback at higher part quality."
+auPerkHellfire,items,Item,,,Hellfire
+auPerkHellfireDesc,items,Item,,,"Hits always burn and bleed the target. Drawback: +100 to +30% noise, smaller at higher part quality."
+auPerkHardHitterAt,items,Item,,,{P:EntityDamage}% damage.
+auPerkDeepWellAt,items,Item,,,{P:MagazineSize}% magazine size.
+auPerkQuickhandsAt,items,Item,,,{P:ReloadSpeedMultiplier}% reload speed.
+auPerkIroncladAt,items,Item,,,{P:DegradationMax}% durability.
+auPerkExecutionerAt,items,Item,,,{P:InternalDamageModifier}% headshot damage.
+auPerkSecondWindAt,items,Item,,,Kills restore {T:onSelfKilledOther} health.
+auPerkBloodletterAt,items,Item,,,Hits make the target bleed {T:onSelfAttackedOther}% of the time.
+auPerkKindlingAt,items,Item,,,Hits set the target on fire {T:onSelfAttackedOther}% of the time.
+auPerkCanOpenerAt,items,Item,,,"Ignores {P:TargetArmor:1:abs}% of armour, and hits shred the target's armour."
+auPerkSledgeAt,items,Item,,,{T:onSelfAttackedOther}% chance per hit to knock the target down.
+auPerkTarPitAt,items,Item,,,Hits slow the target down {T:onSelfAttackedOther}% of the time.
+auPerkScholarAt,items,Item,,,{P:PlayerExpGain}% XP while this gun is in your hands.
+auPerkGlassCannonAt,items,Item,,,{P:EntityDamage}% damage. Drawback: {P:DegradationMax}% durability.
+auPerkOverclockAt,items,Item,,,{P:RoundsPerMinute}% fire rate. Drawback: {P:DegradationPerUse}% wear per shot.
+auPerkHungryMagAt,items,Item,,,{P:MagazineSize}% magazine size. Drawback: {P:ReloadSpeedMultiplier}% reload speed.
+auPerkDeadeyeAt,items,Item,,,{P:InternalDamageModifier:1}% headshot damage. Drawback: {P:InternalDamageModifier:2}% damage to every other body part.
+auPerkBloodpriceAt,items,Item,,,"{P:EntityDamage}% damage, and kills heal {T:onSelfKilledOther}. Drawback: starting a reload costs {T:onReloadStart:1:abs} health."
+auPerkLeechAt,items,Item,,,Hits heal you {P:HealthSteal:1:abs}% of the damage dealt. Drawback: {P:StaminaMax}% max stamina while held.
+auPerkWildcatAt,items,Item,,,"{P:EntityDamage}% damage, {P:RoundsPerMinute}% fire rate. Drawback: {P:KickDegreesVerticalMax}% recoil."
+auPerkHellfireAt,items,Item,,,Hits always burn and bleed the target. Drawback: {P:NoiseMultiplier}% noise.
+auUIPartAt,UI,XUi,,,This part (Q{0}) adds {1}: {2}
+auUIPerks,UI,XUi,,,Perks
+auGunsmithBench,blocks,Block,,,AU Gunsmith Bench
+auGunsmithBenchDesc,blocks,Block,,,"A bench for gun work. Craft perk parts here, and give any gun an engraved name, a skin and as many perks as it has mod slots. A Repair Kit in the part slot takes a perk off again and gives its part back."
+auWorkstationGunsmithBench,progression,Crafting,,,Gunsmith Bench
+auPartHardHitter,items,Item,,,AU Hard Hitter Core
+auPartHardHitterDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Hard Hitter perk to a gun: +15-35% damage, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartDeepWell,items,Item,,,AU Deep Well Core
+auPartDeepWellDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Deep Well perk to a gun: +25-75% magazine size, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartQuickhands,items,Item,,,AU Quickhands Core
+auPartQuickhandsDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Quickhands perk to a gun: +15-40% reload speed, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartIronclad,items,Item,,,AU Ironclad Core
+auPartIroncladDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Ironclad perk to a gun: +50-150% durability, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartExecutioner,items,Item,,,AU Executioner Core
+auPartExecutionerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Executioner perk to a gun: +30-90% headshot damage, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartSecondWind,items,Item,,,AU Second Wind Core
+auPartSecondWindDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Second Wind perk to a gun: kills restore 8-25 health, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartBloodletter,items,Item,,,AU Bloodletter Core
+auPartBloodletterDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Bloodletter perk to a gun: hits make the target bleed 40-100% of the time, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartKindling,items,Item,,,AU Kindling Core
+auPartKindlingDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Kindling perk to a gun: hits set the target on fire 40-100% of the time, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartCanOpener,items,Item,,,AU Can Opener Core
+auPartCanOpenerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Can Opener perk to a gun: ignores 20-50% of armour by this part's quality, and hits shred armour. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartSledge,items,Item,,,AU Sledge Core
+auPartSledgeDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Sledge perk to a gun: 10-30% chance per hit to knock the target down, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartTarPit,items,Item,,,AU Tar Pit Core
+auPartTarPitDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Tar Pit perk to a gun: hits slow the target 40-100% of the time, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartScholar,items,Item,,,AU Scholar Core
+auPartScholarDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Scholar perk to a gun: +10-35% XP while it's in your hands, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartGlassCannon,items,Item,,,AU Corrupted Glass Cannon Core
+auPartGlassCannonDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Glass Cannon to a gun: +60-100% damage, but -40 to -10% durability. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartOverclock,items,Item,,,AU Corrupted Overclock Core
+auPartOverclockDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Overclock to a gun: +40-70% fire rate, but +50 to +15% wear per shot. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartHungryMag,items,Item,,,AU Corrupted Hungry Mag Core
+auPartHungryMagDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Hungry Mag to a gun: +100-150% magazine size, but -25 to -5% reload speed. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartDeadeye,items,Item,,,AU Corrupted Deadeye Core
+auPartDeadeyeDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Deadeye to a gun: +120-200% headshot damage, but -20 to -5% damage to every other body part. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartBloodprice,items,Item,,,AU Corrupted Bloodprice Core
+auPartBloodpriceDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Bloodprice to a gun: +50-80% damage and kills heal 20-35, but starting a reload costs 5 to 1 health. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartLeech,items,Item,,,AU Corrupted Leech Core
+auPartLeechDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Leech to a gun: hits heal you 10-20% of the damage dealt, but -15 to -5% max stamina while held. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartWildcat,items,Item,,,AU Corrupted Wildcat Core
+auPartWildcatDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Wildcat to a gun: +35-60% damage and +25-40% fire rate, but +60 to +20% recoil. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartHellfire,items,Item,,,AU Corrupted Hellfire Core
+auPartHellfireDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Hellfire to a gun: hits always burn and bleed, but +100 to +30% noise. Upgrading it at a Maintenance Station shrinks the drawback."
+auUIGunsmith,UI,XUi,,,GUNSMITH
+auUIGun,UI,XUi,,,Gun
+auUIPart,UI,XUi,,,Perk part
+auUIName,UI,XUi,,,Engraved name (set once)
+auUINameLocked,UI,XUi,,,Engraved name (locked)
+auUIPreviewName,UI,XUi,,,Name
+auUIPerk,UI,XUi,,,Perk
+auUILocked,UI,XUi,,,(locked)
+auUINew,UI,XUi,,,new
+auUINone,UI,XUi,,,none
+auUIApply,UI,XUi,,,APPLY
+auUIConfirmYes,UI,XUi,,,CONFIRM
+auUIConfirmNo,UI,XUi,,,CANCEL
+auUIConfirm,UI,XUi,,,Apply these changes? An engraved name can never be changed.
+auUIUsesPart,UI,XUi,,,Uses 1 {0}
+auUIStatusNoGun,UI,XUi,,,Put a gun in the gun slot.
+auUIStatusNothing,UI,XUi,,,"Type a name, or add a perk part, a Repair Kit or a skin."
+auUIStatusApplied,UI,XUi,,,Applied.
+auUIStatusCancelled,UI,XUi,,,Cancelled. Nothing changed.
+auUIStatusChanged,UI,XUi,,,Something changed. Nothing was applied.
+auUIPerkFull,UI,XUi,,,"Every perk slot is used ({0}/{1}). Upgrade the gun for more, or remove a perk with a Repair Kit."
+auUITipOnlyGuns,UI,XUi,,,Only guns go in this slot.
+auUITipOnlyParts,UI,XUi,,,Only perk parts or a Repair Kit go in this slot.
+auUITipGunFull,UI,XUi,,,Every perk slot on this gun is used. Take one off with a Repair Kit first.
+auUITipNoPerks,UI,XUi,,,This gun has no perks to remove.
+auUIRemoveTitle,UI,XUi,,,Repair Kit: pick the perk to remove
+auUIRemoveWill,UI,XUi,,,will be removed
+auUIConfirmRemovePerk,UI,XUi,,,"{0} will be taken off. Its part comes back at quality {1}."
+auUIConfirmRemoveNoPart,UI,XUi,,,{0} will be taken off. It has no part to give back.
+auUIPartBack,UI,XUi,,,part comes back
+auUICorrupted,UI,XUi,,,corrupted
+auSkinItemDesc,items,Item,,,"Put this in the Gunsmith Bench with a gun to give that one gun this pattern. A gun keeps its skin until it's scrubbed off with a Paint Removal Kit. Shows on the gun in your hands, first and third person."
+auUISkin,UI,XUi,,,Skin
+auUISkinMissing,UI,XUi,,,image missing
+auUITipOnlySkins,UI,XUi,,,Only skin items or a Paint Removal Kit go in this slot.
+auUITipGunSkinned,UI,XUi,,,This gun already has a skin. Scrub it off with a Paint Removal Kit first.
+auUIPartShort,UI,XUi,,,Part
+auUITabGunsmith,UI,XUi,,,GUNSMITH
+auUITabCrafting,UI,XUi,,,CRAFTING
+auPaintRemover,items,Item,,,AU Paint Removal Kit
+auPaintRemoverDesc,items,Item,,,"Put this in the Gunsmith Bench's skin slot with a skinned gun to scrub the skin off. The skin is destroyed; the gun looks stock again and can take a new skin."
+auUITipNoSkin,UI,XUi,,,This gun has no skin to remove.
+auUISkinRemoved,UI,XUi,,,will be removed
+auUIConfirmRemoveSkin,UI,XUi,,,"{0} will be scrubbed off and destroyed"

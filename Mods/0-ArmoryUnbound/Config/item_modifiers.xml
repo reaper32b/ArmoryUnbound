@@ -1,0 +1,386 @@
+<configs>
+<!--
+  Armory Unbound - perks.
+
+  A perk is an item_modifier with modifier_tags="auPerk" (corrupted perks: "auPerk,auCorrupted"). The Gunsmith Bench adds
+  one to a gun from a perk part; the perk runs at the PART's quality (1-90), never the gun's. A gun holds as many perks as
+  it has mod slots, the same perk may go on twice (each copy counts), and a Repair Kit at the bench takes one off again
+  (the part comes back at its quality). Perks never sit in a normal mod slot: no installable_tags, on purpose.
+
+  HOW TO MAKE A SCALED PERK (stat perks - damage, magazine, reload, ...)
+    Give the passive_effect two values and tier="1,90": the game slides smoothly between them by the part's quality.
+      <passive_effect name="EntityDamage" operation="perc_add" value=".15,.35" tier="1,90"/>   Q1 = +15%, Q90 = +35%
+    More points work too (tier="1,45,90" value="a,b,c").
+
+  HOW TO MAKE A BANDED PERK (on-hit / on-kill effects - triggered_effect has no tier)
+    Write one triggered_effect per quality band and add this requirement to each (Undead Legacy's bands shown):
+      <requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1"  max="20"/>
+      ... min="21" max="40" / min="41" max="60" / min="61" max="80" / min="81" max="90"
+    The requirement is true only while that perk's own effects run, for the quality of THAT perk (two copies of one perk
+    on a gun each use their own quality). Chance-based effects add RandomRoll as before.
+
+  HOW TO MAKE A CORRUPTED PERK
+    modifier_tags="auPerk,auCorrupted": shown in red. Give it an upside that grows (value="low,high") and a drawback that
+    shrinks (value="-big,-small") with tier="1,90". Its part goes in loot only (see items.xml / the UL add-on's loot.xml).
+
+  ADDING YOUR OWN PERK: copy a block, give it a new name, keep the tags, add "<name>" and "<name>Desc" to Localization.txt,
+  and make a part for it in items.xml (property AuPerk = the perk name). No code needed.
+  Hit effects only apply to targets tagged zombie or animal. Numbers are plain XML - tune them here.
+-->
+<append xpath="/item_modifiers">
+
+	<!-- Hard Hitter: +15% -> +35% damage -->
+	<item_modifier name="auPerkHardHitter" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkHardHitterDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="EntityDamage" operation="perc_add" value=".15,.35" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Deep Well: +25% -> +75% magazine size -->
+	<item_modifier name="auPerkDeepWell" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkDeepWellDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="MagazineSize" operation="perc_add" value=".25,.75" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Quickhands: +15% -> +40% reload speed -->
+	<item_modifier name="auPerkQuickhands" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkQuickhandsDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="ReloadSpeedMultiplier" operation="perc_add" value=".15,.4" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Ironclad: +50% -> +150% durability -->
+	<item_modifier name="auPerkIronclad" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkIroncladDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="DegradationMax" operation="perc_add" value=".5,1.5" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Executioner: +30% -> +90% headshot damage (vanilla's headshot pattern) -->
+	<item_modifier name="auPerkExecutioner" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkExecutionerDesc"/>
+		<effect_group tiered="false">
+			<requirement name="HitLocation" body_parts="Head"/>
+			<passive_effect name="InternalDamageModifier" operation="perc_add" value=".3,.9" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Scholar: +10% -> +35% XP while this gun is in your hands -->
+	<item_modifier name="auPerkScholar" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkScholarDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="PlayerExpGain" operation="perc_add" value=".1,.35" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Can Opener: ignores 20% -> 50% of armour; hits always shred the target's armour -->
+	<item_modifier name="auPerkCanOpener" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkCanOpenerDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="TargetArmor" operation="perc_add" value="-.2,-.5" tier="1,90"/>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffArmorShredding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Second Wind: kills restore 8 / 12 / 16 / 20 / 25 health (by quality band) -->
+	<item_modifier name="auPerkSecondWind" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkSecondWindDesc"/>
+		<effect_group tiered="false">
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="8">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="12">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="16">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="20">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="25">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Sledge: 10 / 15 / 20 / 25 / 30% chance per hit to knock the target down (by quality band) -->
+	<item_modifier name="auPerkSledge" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkSledgeDesc"/>
+		<effect_group tiered="false">
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryKnockdown01">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryKnockdown01">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="15"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryKnockdown01">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="20"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryKnockdown01">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="25"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryKnockdown01">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="30"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Bloodletter: hits make the target bleed, 40 / 55 / 70 / 85 / 100% of the time (by quality band) -->
+	<item_modifier name="auPerkBloodletter" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkBloodletterDesc"/>
+		<effect_group tiered="false">
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryBleeding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="40"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryBleeding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="55"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryBleeding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="70"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryBleeding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="85"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryBleeding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Kindling: hits set the target on fire, 40 / 55 / 70 / 85 / 100% of the time (by quality band) -->
+	<item_modifier name="auPerkKindling" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkKindlingDesc"/>
+		<effect_group tiered="false">
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffBurningElement">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="40"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffBurningElement">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="55"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffBurningElement">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="70"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffBurningElement">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="85"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffBurningElement">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Tar Pit: hits slow the target down, 40 / 55 / 70 / 85 / 100% of the time (by quality band) -->
+	<item_modifier name="auPerkTarPit" modifier_tags="auPerk" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkTarPitDesc"/>
+		<effect_group tiered="false">
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjurySlow">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="40"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjurySlow">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="55"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjurySlow">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="70"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjurySlow">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+				<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="85"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjurySlow">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- ===================== Corrupted perks: upside grows, drawback shrinks with quality. Loot only. ===================== -->
+
+	<!-- Glass Cannon: +60% -> +100% damage | -40% -> -10% durability -->
+	<item_modifier name="auPerkGlassCannon" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkGlassCannonDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="EntityDamage" operation="perc_add" value=".6,1" tier="1,90"/>
+			<passive_effect name="DegradationMax" operation="perc_add" value="-.4,-.1" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Overclock: +40% -> +70% fire rate | +50% -> +15% wear per shot -->
+	<item_modifier name="auPerkOverclock" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkOverclockDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="RoundsPerMinute" operation="perc_add" value=".4,.7" tier="1,90"/>
+			<passive_effect name="DegradationPerUse" operation="perc_add" value=".5,.15" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Hungry Mag: +100% -> +150% magazine size | -25% -> -5% reload speed -->
+	<item_modifier name="auPerkHungryMag" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkHungryMagDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="MagazineSize" operation="perc_add" value="1,1.5" tier="1,90"/>
+			<passive_effect name="ReloadSpeedMultiplier" operation="perc_add" value="-.25,-.05" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Deadeye: +120% -> +200% headshot damage | -20% -> -5% damage on every other body part -->
+	<item_modifier name="auPerkDeadeye" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkDeadeyeDesc"/>
+		<effect_group tiered="false">
+			<requirement name="HitLocation" body_parts="Head"/>
+			<passive_effect name="InternalDamageModifier" operation="perc_add" value="1.2,2" tier="1,90"/>
+		</effect_group>
+		<effect_group tiered="false">
+			<requirement name="!HitLocation" body_parts="Head"/>
+			<passive_effect name="InternalDamageModifier" operation="perc_add" value="-.2,-.05" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Bloodprice: +50% -> +80% damage, kills heal 20 / 24 / 28 / 32 / 35 | starting a reload costs 5 / 4 / 3 / 2 / 1 health -->
+	<item_modifier name="auPerkBloodprice" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkBloodpriceDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="EntityDamage" operation="perc_add" value=".5,.8" tier="1,90"/>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="20">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="24">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="28">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="32">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyStats" stat="Health" operation="add" value="35">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			</triggered_effect>
+			<triggered_effect trigger="onReloadStart" action="ModifyStats" stat="Health" operation="add" value="-5">
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+			</triggered_effect>
+			<triggered_effect trigger="onReloadStart" action="ModifyStats" stat="Health" operation="add" value="-4">
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+			</triggered_effect>
+			<triggered_effect trigger="onReloadStart" action="ModifyStats" stat="Health" operation="add" value="-3">
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+			</triggered_effect>
+			<triggered_effect trigger="onReloadStart" action="ModifyStats" stat="Health" operation="add" value="-2">
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+			</triggered_effect>
+			<triggered_effect trigger="onReloadStart" action="ModifyStats" stat="Health" operation="add" value="-1">
+				<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Leech: hits heal you 10% -> 20% of the damage dealt (vanilla HealthSteal) | -15% -> -5% max stamina while held -->
+	<item_modifier name="auPerkLeech" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkLeechDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="HealthSteal" operation="base_add" value=".1,.2" tier="1,90"/>
+			<passive_effect name="StaminaMax" operation="perc_add" value="-.15,-.05" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Wildcat: +35% -> +60% damage, +25% -> +40% fire rate | +60% -> +20% recoil -->
+	<item_modifier name="auPerkWildcat" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkWildcatDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="EntityDamage" operation="perc_add" value=".35,.6" tier="1,90"/>
+			<passive_effect name="RoundsPerMinute" operation="perc_add" value=".25,.4" tier="1,90"/>
+			<passive_effect name="KickDegreesVerticalMin" operation="perc_add" value=".6,.2" tier="1,90"/>
+			<passive_effect name="KickDegreesVerticalMax" operation="perc_add" value=".6,.2" tier="1,90"/>
+			<passive_effect name="KickDegreesHorizontalMin" operation="perc_add" value=".6,.2" tier="1,90"/>
+			<passive_effect name="KickDegreesHorizontalMax" operation="perc_add" value=".6,.2" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Hellfire: hits always burn and bleed the target | +100% -> +30% noise -->
+	<item_modifier name="auPerkHellfire" modifier_tags="auPerk,auCorrupted" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkHellfireDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="NoiseMultiplier" operation="perc_add" value="1,.3" tier="1,90"/>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffBurningElement">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfAttackedOther" action="AddBuff" target="other" buff="buffInjuryBleeding">
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+			</triggered_effect>
+		</effect_group>
+	</item_modifier>
+
+</append>
+</configs>

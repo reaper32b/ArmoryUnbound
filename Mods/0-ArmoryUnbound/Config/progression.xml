@@ -1,0 +1,18 @@
+<configs>
+<!--
+  Armory Unbound - Gunsmith Bench unlock, the same way vanilla unlocks its other workstations:
+  the Workstations crafting skill (craftingWorkstations). It joins the cement mixer's row at level 36,
+  the free slot vanilla left between the cement mixer (34) and the apiary extractor (40).
+  Matched by identity (the row that unlocks cementMixer), not by position.
+  Change "36" in BOTH the unlock_level csv and the passive_effect level to move the unlock.
+-->
+<csv xpath="//crafting_skill[@name='craftingWorkstations']/display_entry[unlock_entry/@item='cementMixer']/@icon" delim="," op="add">workbench</csv>
+<csv xpath="//crafting_skill[@name='craftingWorkstations']/display_entry[unlock_entry/@item='cementMixer']/@name_key" delim="," op="add">auWorkstationGunsmithBench</csv>
+<csv xpath="//crafting_skill[@name='craftingWorkstations']/display_entry[unlock_entry/@item='cementMixer']/@unlock_level" delim="," op="add">36</csv>
+<append xpath="//crafting_skill[@name='craftingWorkstations']/display_entry[unlock_entry/@item='cementMixer']">
+	<unlock_entry item="auGunsmithBench" unlock_tier="4"/>
+</append>
+<append xpath="//crafting_skill[@name='craftingWorkstations']/effect_group">
+	<passive_effect name="RecipeTagUnlocked" operation="base_set" level="36,100" value="1" tags="auGunsmithBench"/>
+</append>
+</configs>

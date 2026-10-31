@@ -1,0 +1,176 @@
+﻿<configs>
+<!--
+  Armory Unbound, Undead Legacy add-on: recipes and the research unlock.
+
+  Why this file exists: Undead Legacy replaces the whole recipes document (set xpath="/recipes"),
+  so 0-ArmoryUnbound's recipes are gone by the time UL has loaded. This folder sorts after
+  UndeadLegacy and adds them back in UL's terms:
+    - UL recipes use area= and time= (UL's ULM_RecipesFromXml reads both forms; UL itself has no craft_area).
+    - A workstation lists every recipe whose area matches its Workstation.CraftingAreaRecipes
+      (UL's H_RecipeFilter.FilterByWorkstation). The Gunsmith Bench block says "auGunsmithBench".
+    - UL unlocks "learnable" recipes only through its research tree (ULM_Recipe.IsUnlocked);
+      recipes without the learnable tag are always unlocked. So the bench is learnable (researched)
+      and the perk parts are not (anyone with a bench can craft them).
+
+  Costs and times are plain XML: tune them here.
+-->
+<append xpath="/recipes">
+	<!-- The bench: Workbench tier 2 (mid-game), unlocked by the research node below. -->
+	<recipe name="auGunsmithBench" count="1" time="60" area="ulmStationWorkbench_2" tags="learnable">
+		<ingredient name="resourceForgedSteel" count="20"/>
+		<ingredient name="resourceMechanicalParts" count="25"/>
+		<ingredient name="resourceSpring" count="10"/>
+		<ingredient name="resourceDuctTape" count="10"/>
+		<ingredient name="resourceOil" count="5"/>
+	</recipe>
+
+	<!-- Perk parts: crafted at the Gunsmith Bench. 5 forged steel, 10 mechanical parts, 4 springs + one themed ingredient. -->
+	<recipe name="auPartHardHitter" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceGunPowder" count="50"/>
+	</recipe>
+	<recipe name="auPartDeepWell" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceDuctTape" count="5"/>
+	</recipe>
+	<recipe name="auPartQuickhands" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceOil" count="5"/>
+	</recipe>
+	<recipe name="auPartIronclad" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="15"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+	</recipe>
+	<recipe name="auPartExecutioner" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceElectricParts" count="5"/>
+	</recipe>
+	<recipe name="auPartSecondWind" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="medicalFirstAidBandage" count="3"/>
+	</recipe>
+	<recipe name="auPartBloodletter" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceBuckshot" count="50"/>
+	</recipe>
+	<recipe name="auPartKindling" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceCoal" count="20"/>
+	</recipe>
+	<recipe name="auPartCanOpener" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceAcid" count="2"/>
+	</recipe>
+	<recipe name="auPartSledge" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceForgedIron" count="20"/>
+	</recipe>
+	<recipe name="auPartTarPit" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceGlue" count="5"/>
+	</recipe>
+	<recipe name="auPartScholar" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourcePaper" count="20"/>
+	</recipe>
+</append>
+
+<!--
+  1.5.0: perk parts are quality items (1-90) and are upgraded at UL's Maintenance Station like any UL item.
+  Read from UndeadLegacy.dll: ULM_ItemModifications.AddFromXml reads <modify group="A,B" step="N"> (step default 10) and its
+  <upgrade>/<repair> children; Add reads quality="min,max", area, prob, count, tags, exp and <ingredient name count>.
+  An item opts in with property MaintenanceGroup (items.xml: MG_auPerkPart / MG_auCorruptPart). The station offers the
+  entry whose quality range holds the part's quality; XUiC_ULM_ModificationStationWindow.PerformUpgrade takes the
+  ingredients, then rolls UL's success chance (GetUpgradeChance) - on a fail the ingredients are gone, that's UL's rule -
+  and on success sets Quality = min(Quality + step, 90).
+  Step 10: Q1 -> 11 -> 21 ... -> 81 -> 90, nine upgrades. Areas follow UL's own tables (maintenance_N = station tier N):
+  tier 2 for Q1-40, tier 3 for Q41-70, tier 4 for Q71-89. Costs rise per band and come from the parts' own recipe
+  ingredients (every part recipe is forged steel + mechanical parts + springs + one themed item; a group shares one
+  table, so the shared three are used). Corrupted parts (no recipe) cost double. No repair entries: parts don't wear.
+-->
+<append xpath="/recipes">
+	<modify group="MG_auPerkPart" step="10">
+		<upgrade quality="1,10"  area="maintenance_2"><ingredient name="resourceForgedSteel" count="2"/><ingredient name="resourceMechanicalParts" count="4"/><ingredient name="resourceSpring" count="1"/></upgrade>
+		<upgrade quality="11,20" area="maintenance_2"><ingredient name="resourceForgedSteel" count="3"/><ingredient name="resourceMechanicalParts" count="6"/><ingredient name="resourceSpring" count="2"/></upgrade>
+		<upgrade quality="21,30" area="maintenance_2"><ingredient name="resourceForgedSteel" count="4"/><ingredient name="resourceMechanicalParts" count="8"/><ingredient name="resourceSpring" count="2"/></upgrade>
+		<upgrade quality="31,40" area="maintenance_2"><ingredient name="resourceForgedSteel" count="5"/><ingredient name="resourceMechanicalParts" count="10"/><ingredient name="resourceSpring" count="3"/></upgrade>
+		<upgrade quality="41,50" area="maintenance_3"><ingredient name="resourceForgedSteel" count="6"/><ingredient name="resourceMechanicalParts" count="12"/><ingredient name="resourceSpring" count="3"/></upgrade>
+		<upgrade quality="51,60" area="maintenance_3"><ingredient name="resourceForgedSteel" count="8"/><ingredient name="resourceMechanicalParts" count="15"/><ingredient name="resourceSpring" count="4"/></upgrade>
+		<upgrade quality="61,70" area="maintenance_3"><ingredient name="resourceForgedSteel" count="10"/><ingredient name="resourceMechanicalParts" count="18"/><ingredient name="resourceSpring" count="4"/></upgrade>
+		<upgrade quality="71,80" area="maintenance_4"><ingredient name="resourceForgedSteel" count="12"/><ingredient name="resourceMechanicalParts" count="22"/><ingredient name="resourceSpring" count="5"/></upgrade>
+		<upgrade quality="81,89" area="maintenance_4"><ingredient name="resourceForgedSteel" count="15"/><ingredient name="resourceMechanicalParts" count="26"/><ingredient name="resourceSpring" count="6"/></upgrade>
+	</modify>
+	<modify group="MG_auCorruptPart" step="10">
+		<upgrade quality="1,10"  area="maintenance_2"><ingredient name="resourceForgedSteel" count="4"/><ingredient name="resourceMechanicalParts" count="8"/><ingredient name="resourceSpring" count="2"/></upgrade>
+		<upgrade quality="11,20" area="maintenance_2"><ingredient name="resourceForgedSteel" count="6"/><ingredient name="resourceMechanicalParts" count="12"/><ingredient name="resourceSpring" count="4"/></upgrade>
+		<upgrade quality="21,30" area="maintenance_2"><ingredient name="resourceForgedSteel" count="8"/><ingredient name="resourceMechanicalParts" count="16"/><ingredient name="resourceSpring" count="4"/></upgrade>
+		<upgrade quality="31,40" area="maintenance_2"><ingredient name="resourceForgedSteel" count="10"/><ingredient name="resourceMechanicalParts" count="20"/><ingredient name="resourceSpring" count="6"/></upgrade>
+		<upgrade quality="41,50" area="maintenance_3"><ingredient name="resourceForgedSteel" count="12"/><ingredient name="resourceMechanicalParts" count="24"/><ingredient name="resourceSpring" count="6"/></upgrade>
+		<upgrade quality="51,60" area="maintenance_3"><ingredient name="resourceForgedSteel" count="16"/><ingredient name="resourceMechanicalParts" count="30"/><ingredient name="resourceSpring" count="8"/></upgrade>
+		<upgrade quality="61,70" area="maintenance_3"><ingredient name="resourceForgedSteel" count="20"/><ingredient name="resourceMechanicalParts" count="36"/><ingredient name="resourceSpring" count="8"/></upgrade>
+		<upgrade quality="71,80" area="maintenance_4"><ingredient name="resourceForgedSteel" count="24"/><ingredient name="resourceMechanicalParts" count="44"/><ingredient name="resourceSpring" count="10"/></upgrade>
+		<upgrade quality="81,89" area="maintenance_4"><ingredient name="resourceForgedSteel" count="30"/><ingredient name="resourceMechanicalParts" count="52"/><ingredient name="resourceSpring" count="12"/></upgrade>
+	</modify>
+</append>
+
+<!--
+  Research unlock for the bench (UL research tree, merged into this recipes document).
+  UL rules followed (see UL's ULM_ResearchManager.AddResearchFromXml and XUiC_ULM_ResearchEntry):
+    - The node is named after the recipe it unlocks and also carries a real unlocks entry,
+      so the tooltip never shows "Missing Crafting Recipe".
+    - It is a child, not a root, so it goes in with append: its parent is defined earlier in the
+      document in both cases below (a parent must be processed before its children).
+    - pos is relative to the parent. requires= is the gate, independent of the parent:
+      Basic Firearms must be researched first. area= ulmStationResearch_2 means it is researched
+      at a tier 2 Research Station, i.e. mid-game.
+  Where it goes:
+    - With ZZZ_UL_ResearchTree (adds the "Modded" research tab and its root node researchModded):
+      in the Modded tab, under researchModded, one row below the lowest node there.
+    - Without it (most players): in UL's Ranged tab, under Basic Firearms, below its other children.
+      researchModded would not exist there, and a missing parent makes UL's research window throw.
+  Research cost (tune here): 300 gun research + 100 engineering research.
+-->
+<conditional>
+	<if cond="mod_loaded('ZZZ_UL_ResearchTree')">
+		<append xpath="/recipes">
+			<research name="auGunsmithBench" parent="researchModded" requires="researchBasicFirearms" pos="6,-228" area="ulmStationResearch_2" icon="auGunsmithBench" size="large" link_type="H">
+				<unlocks name="auGunsmithBench"/>
+				<ingredient name="ulmResourceResearchGuns" count="300"/>
+				<ingredient name="ulmResourceResearchEngineering" count="100"/>
+			</research>
+		</append>
+	</if>
+	<else>
+		<append xpath="/recipes">
+			<research name="auGunsmithBench" parent="researchBasicFirearms" requires="researchBasicFirearms" pos="8,-14" area="ulmStationResearch_2" icon="auGunsmithBench" size="large" link_type="H">
+				<unlocks name="auGunsmithBench"/>
+				<ingredient name="ulmResourceResearchGuns" count="300"/>
+				<ingredient name="ulmResourceResearchEngineering" count="100"/>
+			</research>
+		</append>
+	</else>
+</conditional>
+</configs>

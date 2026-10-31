@@ -1,0 +1,6 @@
+# Built output - attach the DLL to GitHub releases (in the zip), not to the repo
+*.dll
+*.pdb
+# Your own skins stay local
+Mods/0-ArmoryUnbound/Skins/Custom/*
+!Mods/0-ArmoryUnbound/Skins/Custom/README.txt

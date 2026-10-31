@@ -1,0 +1,89 @@
+<configs>
+<!--
+  Armory Unbound - recipes. Costs are plain XML: tune them here.
+  Gunsmith Bench: crafted at a workbench, learnable; unlocked by Workstations level 36 (progression.xml, RecipeTagUnlocked tag auGunsmithBench).
+  Perk parts: crafted at the Gunsmith Bench (craft_area auGunsmithBench); no unlock needed once you own a bench.
+  Every part costs 5 forged steel, 10 mechanical parts and 4 springs, plus one ingredient that fits its perk.
+-->
+<append xpath="/recipes">
+	<recipe name="auGunsmithBench" count="1" craft_area="workbench" tags="learnable,workbenchCrafting,auGunsmithBench">
+		<ingredient name="resourceForgedSteel" count="20"/>
+		<ingredient name="resourceMechanicalParts" count="25"/>
+		<ingredient name="resourceSpring" count="10"/>
+		<ingredient name="resourceDuctTape" count="10"/>
+		<ingredient name="resourceOil" count="5"/>
+	</recipe>
+
+	<recipe name="auPartHardHitter" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceGunPowder" count="50"/>
+	</recipe>
+	<recipe name="auPartDeepWell" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceDuctTape" count="5"/>
+	</recipe>
+	<recipe name="auPartQuickhands" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceOil" count="5"/>
+	</recipe>
+	<recipe name="auPartIronclad" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="15"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+	</recipe>
+	<recipe name="auPartExecutioner" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceElectricParts" count="5"/>
+	</recipe>
+	<recipe name="auPartSecondWind" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="medicalFirstAidBandage" count="3"/>
+	</recipe>
+	<recipe name="auPartBloodletter" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceBuckshot" count="50"/>
+	</recipe>
+	<recipe name="auPartKindling" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceCoal" count="20"/>
+	</recipe>
+	<recipe name="auPartCanOpener" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceAcid" count="2"/>
+	</recipe>
+	<recipe name="auPartSledge" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceForgedIron" count="20"/>
+	</recipe>
+	<recipe name="auPartTarPit" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceGlue" count="5"/>
+	</recipe>
+	<recipe name="auPartScholar" count="1" craft_area="auGunsmithBench" craft_time="60" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourcePaper" count="20"/>
+	</recipe>
+</append>
+</configs>

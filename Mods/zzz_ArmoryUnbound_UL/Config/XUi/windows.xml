@@ -1,0 +1,108 @@
+<configs>
+<!--
+  Armory Unbound, Undead Legacy add-on: the Gunsmith panel in UL's look (vanilla players keep the original).
+  Same window (auGunsmith), same controller, and every element the code looks up keeps its id:
+  auGunGrid, auPartGrid, auSkinGrid, auSkinSwatch, auName, btnAuApply, btnAuConfirm, btnAuCancel, btnAuPrev, btnAuNext, plus the
+  bindings au_status, au_namelabel, au_preview, au_confirm, au_confirmtext, au_hasswatch, au_removemode, au_removepick
+  (src\BenchWindow.cs).
+  1.4.0: UL's bench has three columns (recipes | recipe info | backpack) that fill a 16:9 screen, so there is no free
+  space for the panel (1.2.0/1.3.0 sat on top of the backpack). Now the panel covers the MIDDLE column exactly and a
+  CRAFTING / GUNSMITH button in the header (window auGunsmithTab, src XUiC_AuGunsmithTab) switches between UL's recipe
+  info and the Gunsmith panel. Middle column measured on AJ's 2560x1440 screen (UL header -803..803 = calibration):
+  x -187..173, y 457..-455 (CenterCenter units). Opaque fill so nothing behind shows through.
+  UL pieces used: the background control, the ulmHeaderNoIcon label style, UL's section-title look (grey label + 3px
+  line), and UL's button art ui_btn_186x66.
+-->
+<removeattribute xpath="/windows/window[@name='auGunsmith']/@panel"/>
+<setattribute xpath="/windows/window[@name='auGunsmith']" name="anchor">CenterCenter</setattribute>
+<setattribute xpath="/windows/window[@name='auGunsmith']" name="pos">-184,454</setattribute>
+<setattribute xpath="/windows/window[@name='auGunsmith']" name="width">354</setattribute>
+<setattribute xpath="/windows/window[@name='auGunsmith']" name="height">904</setattribute>
+<setattribute xpath="/windows/window[@name='auGunsmith']" name="depth">10</setattribute>
+<set xpath="/windows/window[@name='auGunsmith']">
+	<background size="366,935"/>
+	<sprite depth="-1" pos="0,-32" width="354" height="872" color="22,22,22,255" sprite="ui_fill" type="sliced"/>
+	<sprite depth="2" pos="14,-14" size="24,24" pivot="center" sprite="ui_game_symbol_wrench" color="[labelColor]" foregroundlayer="true"/>
+	<label style="ulmHeaderNoIcon" pos="32,5" text="GUNSMITH" text_key="auUIGunsmith"/>
+
+	<!-- slots: gun, perk part, skin + pattern swatch -->
+	<label style="ulmHeaderNoIcon" pos="12,-42" size="75,22" font_size="20" color="160,160,160" text="Gun" text_key="auUIGun"/>
+	<sprite depth="-1" pos="10,-64" width="75" height="3" color="80,80,80" sprite="ui_fill" type="sliced" foregroundlayer="true"/>
+	<rect depth="3" pos="10,-74" width="75" height="75" disablefallthrough="true">
+		<grid depth="3" name="auGunGrid" rows="1" cols="1" pos="0,0" cell_width="75" cell_height="75" controller="ArmoryUnbound.AuSlotGrid, ArmoryUnbound" repeat_content="true">
+			<item_stack controller="ArmoryUnbound.AuGunStack, ArmoryUnbound" name="0"/>
+		</grid>
+	</rect>
+	<label style="ulmHeaderNoIcon" pos="98,-42" size="75,22" font_size="20" color="160,160,160" text="Part" text_key="auUIPartShort"/>
+	<sprite depth="-1" pos="96,-64" width="75" height="3" color="80,80,80" sprite="ui_fill" type="sliced" foregroundlayer="true"/>
+	<rect depth="3" pos="96,-74" width="75" height="75" disablefallthrough="true">
+		<grid depth="3" name="auPartGrid" rows="1" cols="1" pos="0,0" cell_width="75" cell_height="75" controller="ArmoryUnbound.AuSlotGrid, ArmoryUnbound" repeat_content="true">
+			<item_stack controller="ArmoryUnbound.AuPartStack, ArmoryUnbound" name="0"/>
+		</grid>
+	</rect>
+	<label style="ulmHeaderNoIcon" pos="184,-42" size="75,22" font_size="20" color="160,160,160" text="Skin" text_key="auUISkin"/>
+	<sprite depth="-1" pos="182,-64" width="158" height="3" color="80,80,80" sprite="ui_fill" type="sliced" foregroundlayer="true"/>
+	<rect depth="3" pos="182,-74" width="75" height="75" disablefallthrough="true">
+		<grid depth="3" name="auSkinGrid" rows="1" cols="1" pos="0,0" cell_width="75" cell_height="75" controller="ArmoryUnbound.AuSlotGrid, ArmoryUnbound" repeat_content="true">
+			<item_stack controller="ArmoryUnbound.AuSkinStack, ArmoryUnbound" name="0"/>
+		</grid>
+	</rect>
+	<sprite depth="2" pos="266,-74" width="74" height="75" color="[bgInput]" sprite="ui_fill" type="sliced"/>
+	<texture depth="3" name="auSkinSwatch" pos="268,-76" width="70" height="71" material="Materials/Transparent Colored" globalopacity="true" visible="{au_hasswatch}"/>
+	<label depth="2" name="status" pos="12,-156" width="330" height="24" font_size="18" justify="left" color="200,200,200" text="{au_status}"/>
+
+	<!-- name -->
+	<label style="ulmHeaderNoIcon" pos="12,-184" size="330,22" font_size="20" color="160,160,160" text="{au_namelabel}"/>
+	<sprite depth="-1" pos="10,-206" width="334" height="3" color="80,80,80" sprite="ui_fill" type="sliced" foregroundlayer="true"/>
+	<sprite depth="2" pos="10,-214" width="334" height="36" color="[bgInput]" sprite="ui_fill" type="sliced"/>
+	<textfield depth="3" name="auName" pos="16,-216" width="326" height="32" font_size="24" character_limit="32" justify="left" backgroundcolor="0,0,0,1"
+		virtual_keyboard_prompt="auUIName" open_vk_on_open="false" focus_on_open="false" clear_button="true" close_group_on_tab="false"/>
+
+	<!-- 1.5.0 remove mode (a Repair Kit in the part slot): arrows pick the perk to take off, by position. Same window size. -->
+	<rect depth="4" name="removeRow" pos="10,-262" width="334" height="44" visible="{au_removemode}">
+		<rect depth="1" pos="0,0" width="44" height="44">
+			<button depth="2" name="btnAuPrev" sprite="ui_btn_186x66" hoversprite="ui_btn_186x66_h" defaultcolor="[white]" hovercolor="[white]" type="sliced" hoverscale="1.0" sound="[sfx_btn_category]" sound_play_on_press="true"/>
+			<label depth="3" pos="0,-8" width="44" height="28" justify="center" font_size="26" color="[labelColor]" effect="outline" effect_color="0,0,0,160" effect_distance="1,1" text="&lt;"/>
+		</rect>
+		<label depth="2" pos="50,-11" width="234" height="24" font_size="20" justify="center" text="{au_removepick}"/>
+		<rect depth="1" pos="290,0" width="44" height="44">
+			<button depth="2" name="btnAuNext" sprite="ui_btn_186x66" hoversprite="ui_btn_186x66_h" defaultcolor="[white]" hovercolor="[white]" type="sliced" hoverscale="1.0" sound="[sfx_btn_category]" sound_play_on_press="true"/>
+			<label depth="3" pos="0,-8" width="44" height="28" justify="center" font_size="26" color="[labelColor]" effect="outline" effect_color="0,0,0,160" effect_distance="1,1" text="&gt;"/>
+		</rect>
+	</rect>
+
+	<!-- preview: room for name, 5 perks + new/removed, skin and any problem lines -->
+	<label depth="2" name="preview" pos="12,-314" width="330" height="508" font_size="20" justify="left" text="{au_preview}"/>
+
+	<!-- apply -->
+	<rect depth="4" pos="10,-846" width="334" height="44">
+		<button depth="2" name="btnAuApply" sprite="ui_btn_186x66" hoversprite="ui_btn_186x66_h" defaultcolor="[white]" hovercolor="[white]" disabledcolor="255,255,255,70" type="sliced" hoverscale="1.0" sound="[sfx_btn_category]" sound_play_on_press="true"/>
+		<label depth="3" pos="0,-8" width="334" height="28" justify="center" font_size="26" color="[labelColor]" effect="outline" effect_color="0,0,0,160" effect_distance="1,1" upper_case="true" text="APPLY" text_key="auUIApply"/>
+	</rect>
+
+	<!-- confirmation: this window's own, covers the window and eats clicks while shown -->
+	<rect depth="20" name="confirm" pos="0,0" width="354" height="904" visible="{au_confirm}">
+		<sprite depth="0" name="confirmBg" width="354" height="904" color="0,0,0,245" sprite="ui_fill" type="sliced" on_press="true" gamepad_selectable="false"/>
+		<sprite depth="1" width="354" height="3" color="80,80,80" sprite="ui_fill" type="sliced"/>
+		<label depth="2" pos="12,-40" width="330" height="760" font_size="22" justify="center" text="{au_confirmtext}"/>
+		<rect depth="3" pos="10,-846" width="162" height="44">
+			<button depth="2" name="btnAuConfirm" sprite="ui_btn_186x66" hoversprite="ui_btn_186x66_h" defaultcolor="[white]" hovercolor="[white]" type="sliced" hoverscale="1.0" sound="[sfx_btn_category]" sound_play_on_press="true"/>
+			<label depth="3" pos="0,-8" width="162" height="28" justify="center" font_size="24" color="[labelColor]" effect="outline" effect_color="0,0,0,160" effect_distance="1,1" upper_case="true" text="CONFIRM" text_key="auUIConfirmYes"/>
+		</rect>
+		<rect depth="3" pos="182,-846" width="162" height="44">
+			<button depth="2" name="btnAuCancel" sprite="ui_btn_186x66" hoversprite="ui_btn_186x66_h" defaultcolor="[white]" hovercolor="[white]" type="sliced" hoverscale="1.0" sound="[sfx_btn_category]" sound_play_on_press="true"/>
+			<label depth="3" pos="0,-8" width="162" height="28" justify="center" font_size="24" color="[labelColor]" effect="outline" effect_color="0,0,0,160" effect_distance="1,1" upper_case="true" text="CANCEL" text_key="auUIConfirmNo"/>
+		</rect>
+	</rect>
+</set>
+
+<!-- 1.4.0: the CRAFTING / GUNSMITH switch, centred in UL's bench header bar (header: pos -803,536, 1606x50). -->
+<append xpath="/windows">
+	<window name="auGunsmithTab" anchor="CenterCenter" pos="-110,533" width="220" height="44" depth="10" cursor_area="true" controller="ArmoryUnbound.AuGunsmithTab, ArmoryUnbound">
+		<rect depth="2" pos="0,0" width="220" height="44">
+			<button depth="2" name="btnAuTab" sprite="ui_btn_186x66" hoversprite="ui_btn_186x66_h" defaultcolor="[white]" hovercolor="[white]" type="sliced" hoverscale="1.0" sound="[sfx_btn_category]" sound_play_on_press="true"/>
+			<label depth="3" pos="0,-8" width="220" height="28" justify="center" font_size="24" color="[labelColor]" effect="outline" effect_color="0,0,0,160" effect_distance="1,1" upper_case="true" text="{au_tablabel}"/>
+		</rect>
+	</window>
+</append>
+</configs>

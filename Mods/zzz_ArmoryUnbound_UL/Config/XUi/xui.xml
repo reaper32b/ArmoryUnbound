@@ -1,0 +1,23 @@
+<configs>
+<!--
+  Armory Unbound, Undead Legacy add-on: the Gunsmith Bench window in UL's layout.
+  0-ArmoryUnbound builds workstation_auGunsmithBench from the vanilla workbench windows (windowCraftingList,
+  craftingInfoPanel, windowOutput, windowNonPagingHeader). UL's own workbench group uses its own set instead:
+  ulmHeaderWorkstation, windowCraftingListWorkbench, windowCraftingInfo, windowCraftingQueue, windowCraftingOutput.
+  Under UL the vanilla set lands in the wrong places (the recipe info panel sits over the backpack), so this swaps
+  in exactly UL's workbench set and keeps the Gunsmith panel (auGunsmith, right column).
+  set on an element replaces ALL of its children: that is the intent here. The group's attributes, including the
+  vanilla XUiC_WorkstationWindowGroup controller the bench needs, are untouched. UL's set still has a crafting
+  queue (windowCraftingQueue) and an output grid (windowCraftingOutput, WorkstationOutputGrid).
+-->
+<set xpath="//window_group[@name='workstation_auGunsmithBench']">
+	<window name="ulmHeaderWorkstation"/>
+	<window name="windowCraftingListWorkbench"/>
+	<window name="windowCraftingInfo"/>
+	<window name="windowCraftingQueue"/>
+	<window name="windowCraftingOutput"/>
+	<window name="auGunsmith"/>
+	<window name="auGunsmithTab"/>
+</set>
+<!-- 1.4.0: auGunsmithTab = the CRAFTING / GUNSMITH button in the header; the Gunsmith panel now sits over the middle column. -->
+</configs>

@@ -1,0 +1,20 @@
+# Armory Unbound - parts of a skinned gun that stay stock.
+# One word per line. A part stays stock if the word appears anywhere in its name, a parent's name
+# or its texture name (not case-sensitive). Lines starting with # are ignored. Delete a word to skin
+# that part. After editing: "au parts reload" in the console (F1), or restart the game.
+# "au parts" lists every part of the gun in your hands and why it is skinned or stock.
+# Note: on vanilla guns the barrel, iron sights and grip are part of the main body, so only
+# separate attachments (scopes, lasers, lights, suppressors) can stay stock there.
+barrel
+sight
+scope
+grip
+laser
+light
+suppressor
+silencer
+muzzle
+# magazines (EFTX textures start with mag_; drum mags)
+magazine
+mag_
+drum

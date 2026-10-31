@@ -1,0 +1,96 @@
+<configs>
+<!--
+  Armory Unbound - the Gunsmith window (scope item 9; skin slot = Phase 2 scope item 7). Shown in the Gunsmith Bench's
+  window group (xui.xml), in the right column under the crafting output. Controller: src\BenchWindow.cs.
+  Gun slot, perk-part slot, skin slot + pattern swatch, name box (32 characters, set once), preview, Apply, and a
+  confirmation box inside the window.
+  Uses only vanilla elements and styles that exist in vanilla and under Undead Legacy: item_stack, textfield (XUi_Common),
+  texture (material "Materials/Transparent Colored", as XUi_Common controls use it), header.panel / header.icon / header.name.
+  The Undead Legacy add-on (zzz_ArmoryUnbound_UL) replaces this window's content with a UL-styled copy: any new id or
+  binding here must be added there too.
+-->
+<append xpath="/windows">
+	<window name="auGunsmith" width="380" height="488" panel="Right" cursor_area="true" controller="ArmoryUnbound.AuGunsmithWindow, ArmoryUnbound">
+		<panel style="header.panel">
+			<sprite style="header.icon" sprite="ui_game_symbol_wrench"/>
+			<label style="header.name" text="GUNSMITH" text_key="auUIGunsmith"/>
+		</panel>
+
+		<rect name="content" depth="0" pos="0,-46" width="380" height="442">
+			<sprite depth="1" name="backgroundMain" sprite="menu_empty3px" width="380" height="442" color="[black]" type="sliced" fillcenter="false"/>
+			<sprite depth="0" name="background" width="380" height="442" color="[darkGrey]" type="sliced"/>
+
+			<!-- slots: gun, perk part, skin + swatch -->
+			<label depth="2" pos="8,-6" width="80" height="20" font_size="18" text="Gun" text_key="auUIGun"/>
+			<rect depth="3" pos="6,-28" width="75" height="75" disablefallthrough="true">
+				<grid depth="3" name="auGunGrid" rows="1" cols="1" pos="0,0" cell_width="75" cell_height="75" controller="ArmoryUnbound.AuSlotGrid, ArmoryUnbound" repeat_content="true">
+					<item_stack controller="ArmoryUnbound.AuGunStack, ArmoryUnbound" name="0"/>
+				</grid>
+			</rect>
+			<label depth="2" pos="96,-6" width="84" height="20" font_size="18" text="Perk part" text_key="auUIPart"/>
+			<rect depth="3" pos="94,-28" width="75" height="75" disablefallthrough="true">
+				<grid depth="3" name="auPartGrid" rows="1" cols="1" pos="0,0" cell_width="75" cell_height="75" controller="ArmoryUnbound.AuSlotGrid, ArmoryUnbound" repeat_content="true">
+					<item_stack controller="ArmoryUnbound.AuPartStack, ArmoryUnbound" name="0"/>
+				</grid>
+			</rect>
+			<label depth="2" pos="184,-6" width="80" height="20" font_size="18" text="Skin" text_key="auUISkin"/>
+			<rect depth="3" pos="182,-28" width="75" height="75" disablefallthrough="true">
+				<grid depth="3" name="auSkinGrid" rows="1" cols="1" pos="0,0" cell_width="75" cell_height="75" controller="ArmoryUnbound.AuSlotGrid, ArmoryUnbound" repeat_content="true">
+					<item_stack controller="ArmoryUnbound.AuSkinStack, ArmoryUnbound" name="0"/>
+				</grid>
+			</rect>
+			<sprite depth="2" pos="268,-28" width="75" height="75" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false"/>
+			<texture depth="3" name="auSkinSwatch" pos="270,-30" width="71" height="71" material="Materials/Transparent Colored" globalopacity="true" visible="{au_hasswatch}"/>
+
+			<label depth="2" name="status" pos="8,-108" width="364" height="40" font_size="18" justify="left" text="{au_status}"/>
+
+			<!-- name -->
+			<label depth="2" pos="8,-150" width="364" height="20" font_size="18" justify="left" text="{au_namelabel}"/>
+			<textfield depth="3" name="auName" pos="6,-172" width="368" height="32" font_size="24" character_limit="32" justify="left"
+				virtual_keyboard_prompt="auUIName" open_vk_on_open="false" focus_on_open="false" clear_button="true" close_group_on_tab="false"/>
+
+			<!-- remove mode (a Repair Kit in the part slot): arrows pick the perk to take off, by position -->
+			<rect depth="4" name="removeRow" pos="6,-210" width="368" height="36" visible="{au_removemode}">
+				<rect depth="1" pos="0,0" width="36" height="36">
+					<sprite depth="1" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false"/>
+					<button depth="2" name="btnAuPrev" sprite="menu_empty" defaultcolor="[mediumGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0"/>
+					<label depth="3" pos="0,-4" justify="center" text="&lt;" font_size="26"/>
+				</rect>
+				<label depth="2" pos="44,-7" width="280" height="24" font_size="18" justify="center" text="{au_removepick}"/>
+				<rect depth="1" pos="332,0" width="36" height="36">
+					<sprite depth="1" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false"/>
+					<button depth="2" name="btnAuNext" sprite="menu_empty" defaultcolor="[mediumGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0"/>
+					<label depth="3" pos="0,-4" justify="center" text="&gt;" font_size="26"/>
+				</rect>
+			</rect>
+
+			<!-- preview -->
+			<label depth="2" name="preview" pos="8,-252" width="364" height="140" font_size="18" justify="left" text="{au_preview}"/>
+
+			<!-- apply -->
+			<rect depth="4" pos="6,-396" width="368" height="40">
+				<sprite depth="1" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false"/>
+				<button depth="2" name="btnAuApply" sprite="menu_empty" defaultcolor="[mediumGrey]" disabledcolor="[darkGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0"/>
+				<label depth="3" pos="0,-5" justify="center" text="APPLY" text_key="auUIApply" font_size="26"/>
+			</rect>
+
+			<!-- confirmation: this window's own, covers the window and eats clicks while shown -->
+			<rect depth="20" name="confirm" pos="0,0" width="380" height="442" visible="{au_confirm}">
+				<sprite depth="0" name="confirmBg" width="380" height="442" color="0,0,0,235" type="sliced" on_press="true" gamepad_selectable="false"/>
+				<sprite depth="1" sprite="menu_empty3px" width="380" height="442" color="[white]" type="sliced" fillcenter="false"/>
+				<label depth="2" pos="12,-16" width="356" height="324" font_size="22" justify="center" text="{au_confirmtext}"/>
+				<rect depth="3" pos="12,-386" width="172" height="42">
+					<sprite depth="1" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false"/>
+					<button depth="2" name="btnAuConfirm" sprite="menu_empty" defaultcolor="[mediumGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0"/>
+					<label depth="3" pos="0,-6" justify="center" text="CONFIRM" text_key="auUIConfirmYes" font_size="26"/>
+				</rect>
+				<rect depth="3" pos="196,-386" width="172" height="42">
+					<sprite depth="1" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false"/>
+					<button depth="2" name="btnAuCancel" sprite="menu_empty" defaultcolor="[mediumGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0"/>
+					<label depth="3" pos="0,-6" justify="center" text="CANCEL" text_key="auUIConfirmNo" font_size="26"/>
+				</rect>
+			</rect>
+		</rect>
+	</window>
+</append>
+</configs>

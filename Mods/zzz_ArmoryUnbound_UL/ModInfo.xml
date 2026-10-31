@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<Name value="zzz_ArmoryUnbound_UL" />
+	<DisplayName value="Armory Unbound - Undead Legacy add-on" />
+	<Description value="Beta. Required: install together with 0-ArmoryUnbound in an Undead Legacy 2.7 game. Adds the Gunsmith Bench to UL's research tree and workbench, perk-part recipes, perk parts and starter skins in loot and at traders, corrupted perk parts in hardened chests, perk-part upgrades at UL's Maintenance Station, and UL's look for the Gunsmith panel." />
+	<Author value="AJ" />
+	<Version value="1.0.0" />
+	<Website value="" />
+</xml>

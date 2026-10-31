@@ -1,0 +1,64 @@
+﻿<configs>
+<!--
+  Armory Unbound - Gunsmith Bench.
+  A workstation that reuses the vanilla workbench model (no new art), with its own name, icon (UIAtlases\ItemIconAtlas) and
+  crafting area. Perk parts are crafted here (recipes.xml, craft_area="auGunsmithBench").
+  Crafted at a workbench; unlocked by the Workstations crafting skill at level 36 (progression.xml).
+  Interim: opening it shows a basic workstation window (XUi/xui.xml). The Gunsmith window replaces it later.
+-->
+<append xpath="/blocks">
+	<block name="auGunsmithBench">
+		<property name="Class" value="Workstation"/>
+		<property class="Workstation">
+			<property name="Modules" value="output"/>
+			<property name="CraftingAreaRecipes" value="auGunsmithBench"/>
+		</property>
+		<property name="UnlockedBy" value="craftingWorkstations"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="DescriptionKey" value="auGunsmithBenchDesc"/>
+		<property name="DisplayType" value="blockMulti"/>
+		<property name="WorkstationIcon" value="ui_game_symbol_workbench"/>
+		<property name="CustomIcon" value="auGunsmithBench"/>
+		<property name="CustomIconTint" value="ffffff"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="Material" value="Mmetal"/>
+		<property name="Shape" value="ModelEntity"/>
+		<property name="Model" value="@:Entities/Crafting/woodWorkBenchPrefab.prefab"/>
+		<property name="ModelOffset" value="0,.5,0"/>
+		<property name="MultiBlockDim" value="2,2,1"/>
+		<property name="ImposterDontBlock" value="true"/>
+		<property name="WaterFlow" value="permitted"/>
+		<property name="Place" value="TowardsPlacerInverted"/>
+		<property name="OnlySimpleRotations" value="true"/>
+		<property name="IsTerrainDecoration" value="true"/>
+		<property name="StabilitySupport" value="false"/>
+		<property name="Weight" value="0"/>
+		<property name="EconomicValue" value="3000"/>
+		<property name="MaxDamage" value="800"/>
+		<property name="HeatMapStrength" value="5"/>
+		<property name="HeatMapTime" value="5000"/>
+		<property name="HeatMapFrequency" value="1000"/>
+		<property name="OpenSound" value="open_workbench"/>
+		<property name="CloseSound" value="close_workbench"/>
+		<property name="TakeDelay" value="15"/>
+		<property class="RepairItems">
+			<property name="resourceForgedSteel" value="10"/>
+			<property name="resourceMechanicalParts" value="20"/>
+		</property>
+		<drop event="Harvest" name="resourceScrapIron" count="200" tag="allHarvest,perkJunkMiner"/>
+		<drop event="Harvest" name="resourceWood" count="20" tag="allHarvest,lumberjackHarvest,perkJunkMiner"/>
+		<drop event="Harvest" name="terrStone" count="0" tool_category="Disassemble"/>
+		<drop event="Harvest" name="resourceForgedSteel" count="5" tag="salvageHarvest"/>
+		<drop event="Harvest" name="resourceMechanicalParts" count="8" tag="salvageHarvest"/>
+		<drop event="Destroy" count="0"/>
+		<drop event="Fall" name="terrDestroyedWoodDebris" count="1" prob="0.75" stick_chance="1"/>
+		<property name="SortOrder1" value="B281"/>
+		<property name="SortOrder2" value="0301"/>
+		<property name="Group" value="Building,TCScience,advBuilding"/>
+		<property name="Tags" value="workstationSkill"/>
+		<property name="FilterTags" value="MC_playerBlocks,SC_decor"/>
+		<property name="SoundPickup" value="workbench_grab"/>
+		<property name="SoundPlace" value="workbench_place"/>
+	</block>
+</append>
+</configs>
