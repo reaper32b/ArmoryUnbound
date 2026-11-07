@@ -60,6 +60,27 @@ namespace ArmoryUnbound
             return ic != null && ic.HasAnyTags(CorruptedTag);
         }
 
+        // 1.1.0 (melee scope, AJ 2026-11-02): perks that do nothing on an item kind are refused there. Driven by perk
+        // tags in item_modifiers.xml, so new perks stay XML-only:
+        //   auGunOnly - only works on guns (magazine, reload, fire rate, recoil): refused on melee weapons and tools.
+        //   auMagPerk - magazine size: refused on melee weapons, tools and bows (a bow holds one arrow).
+        public static readonly FastTags<TagGroup.Global> GunOnlyTag = FastTags<TagGroup.Global>.Parse("auGunOnly");
+        public static readonly FastTags<TagGroup.Global> MagPerkTag = FastTags<TagGroup.Global>.Parse("auMagPerk");
+        //   auToolOnly - tool perks (harvest, block damage, swing): only on items tagged tool, toolButcher or sledge.
+        public static readonly FastTags<TagGroup.Global> ToolOnlyTag = FastTags<TagGroup.Global>.Parse("auToolOnly");
+
+        // Null if the perk fits the item; otherwise the Localization key of the reason (also used as the bench tip).
+        public static string WhyNotFit(string perkId, ItemValue iv)
+        {
+            ItemClassModifier ic = GetPerkClass(perkId);
+            if (ic == null || iv == null) return null;   // unknown perks are refused elsewhere
+            if (ic.HasAnyTags(ToolOnlyTag) && !ToolTags.IsTool(iv)) return "auUITipPerkToolOnly";
+            GunData.ItemKind k = GunData.KindOf(iv);
+            if (k == GunData.ItemKind.Melee && (ic.HasAnyTags(GunOnlyTag) || ic.HasAnyTags(MagPerkTag))) return "auUITipPerkGunOnly";
+            if (k == GunData.ItemKind.Bow && ic.HasAnyTags(MagPerkTag)) return "auUITipPerkMagBow";
+            return null;
+        }
+
         // Every loaded perk id, for "au perk" help text.
         public static List<string> AllPerkIds()
         {

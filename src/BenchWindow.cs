@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -109,7 +109,7 @@ namespace ArmoryUnbound
         {
             XUiC_ItemStack s = GunSlot;
             if (s == null || s.ItemStack == null || s.ItemStack.IsEmpty()) return null;
-            return GunData.IsGun(s.ItemStack.itemValue) ? s.ItemStack.itemValue : null;
+            return GunData.IsSupported(s.ItemStack.itemValue) ? s.ItemStack.itemValue : null;
         }
 
         public override void OnOpen()
@@ -421,7 +421,7 @@ namespace ArmoryUnbound
             p.PartCount = p.PartStack == null ? 0 : p.PartStack.count;
             p.SkinStack = ss == null ? null : ss.ItemStack;
             p.SkinCount = p.SkinStack == null ? 0 : p.SkinStack.count;
-            if (p.GunStack == null || p.GunStack.IsEmpty() || !GunData.IsGun(p.GunStack.itemValue))
+            if (p.GunStack == null || p.GunStack.IsEmpty() || !GunData.IsSupported(p.GunStack.itemValue))
             {
                 p.Problem = L("auUIStatusNoGun");
                 return p;
@@ -455,7 +455,9 @@ namespace ArmoryUnbound
                 else
                 {
                     string perkId = PerkOf(p.PartStack.itemValue);
+                    string notFit = perkId == null ? null : Perks.WhyNotFit(perkId, p.Gun);
                     if (perkId == null) p.PerkProblem = L("auUITipOnlyParts");
+                    else if (notFit != null) p.PerkProblem = L(notFit);
                     else if (have.Count >= p.PerkLimit) p.PerkProblem = string.Format(L("auUIPerkFull"), have.Count, p.PerkLimit);
                     else
                     {
@@ -499,7 +501,7 @@ namespace ArmoryUnbound
             {
                 // A different gun (or none): lock the name box if it's already engraved.
                 lastGunStack = gunStack;
-                string existing = gunStack != null && !gunStack.IsEmpty() && GunData.IsGun(gunStack.itemValue) ? GunData.GetName(gunStack.itemValue) : null;
+                string existing = gunStack != null && !gunStack.IsEmpty() && GunData.IsSupported(gunStack.itemValue) ? GunData.GetName(gunStack.itemValue) : null;
                 removeIndex = 0;   // a different gun: the perk picker starts at its first perk
                 if (existing != null)
                 {
@@ -874,7 +876,7 @@ namespace ArmoryUnbound
         public override bool CanSwap(ItemStack _stack)
         {
             if (_stack == null || _stack.IsEmpty()) return true;
-            if (GunData.IsGun(_stack.itemValue)) return true;
+            if (GunData.IsSupported(_stack.itemValue)) return true;
             XUiC_AuGunsmithWindow.Tip(xui, "auUITipOnlyGuns");
             return false;
         }
@@ -906,9 +908,16 @@ namespace ArmoryUnbound
                 }
                 return true;
             }
-            if (XUiC_AuGunsmithWindow.PerkOf(_stack.itemValue) == null)
+            string perkId = XUiC_AuGunsmithWindow.PerkOf(_stack.itemValue);
+            if (perkId == null)
             {
                 XUiC_AuGunsmithWindow.Tip(xui, "auUITipOnlyParts");
+                return false;
+            }
+            string notFit = gun == null ? null : Perks.WhyNotFit(perkId, gun);
+            if (notFit != null)
+            {
+                XUiC_AuGunsmithWindow.Tip(xui, notFit);
                 return false;
             }
             if (gun != null && GunData.GetPerks(gun).Count >= GunData.PerkLimit(gun))

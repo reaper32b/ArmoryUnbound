@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -30,7 +30,9 @@ namespace ArmoryUnbound
                    "  au skin none     - remove the held gun's skin (test/admin; players use a Paint Removal Kit)\n" +
                    "  au info          - show the held gun's Armory Unbound data\n" +
                    "  au parts         - list every part of the held gun: skinned or kept stock, and why (also written to the log)\n" +
-                   "  au parts reload  - re-read Skins\\stock_parts.txt and re-skin the held gun";
+                   "  au parts reload  - re-read Skins\\stock_parts.txt and Skins\\Masks, and re-skin the held item\n" +
+                   "  au mask export   - write the held item's textures + automatic masks to Skins\\Masks\\_export (to paint a mask)\n" +
+                   "  au give <item> [quality] [count] - spawn an item (test/admin; works under Undead Legacy)";
         }
 
         public override bool IsExecuteOnClient
@@ -87,13 +89,38 @@ namespace ArmoryUnbound
             ItemValue iv = inv.holdingItemItemValue; // live slot object, not a copy
             string sub = _params[0].ToLowerInvariant();
 
-            if (sub != "name" && sub != "perk" && sub != "skin" && sub != "info" && sub != "parts")
+            if (sub != "name" && sub != "perk" && sub != "skin" && sub != "info" && sub != "parts" && sub != "mask" && sub != "give")
             {
                 Out("Unknown subcommand '" + _params[0] + "'.\n" + getHelp());
                 return;
             }
+            // 1.1.0: au give <item> [quality] [count] - spawn into the toolbelt/backpack (UL blocks giveself). Test/admin.
+            if (sub == "give")
+            {
+                if (_params.Count < 2) { Out("Usage: au give <itemName> [quality 1-90] [count]   e.g. au give auPartLuckyStrike 90"); return; }
+                ItemClass gic = ItemClass.GetItemClass(_params[1].Trim(), true);
+                if (gic == null) { Out("Refused: no item called '" + _params[1] + "'."); return; }
+                int gq = 1, gn = 1;
+                if (_params.Count > 2 && (!int.TryParse(_params[2], out gq) || gq < 1 || gq > GunData.MaxQuality)) { Out("Refused: quality must be 1-" + GunData.MaxQuality + "."); return; }
+                if (_params.Count > 3 && (!int.TryParse(_params[3], out gn) || gn < 1 || gn > 1000)) { Out("Refused: count must be 1-1000."); return; }
+                ItemValue giv = gic.HasQuality ? new ItemValue(gic.Id, gq, gq, true) : new ItemValue(gic.Id, true);
+                ItemStack gs = new ItemStack(giv, gn);
+                if (!inv.AddItem(gs) && !player.bag.AddItem(gs)) { Out("Refused: toolbelt and backpack are full."); return; }
+                Out("Gave " + gn + "x " + gic.GetLocalizedItemName() + " (" + gic.Name + ")" + (gic.HasQuality ? " Q" + gq : "") + ".");
+                return;
+            }
+            if (sub == "mask")
+            {
+                if (_params.Count < 2 || _params[1].ToLowerInvariant() != "export") { Out("Usage: au mask export   (hold the item first)"); return; }
+                List<string> files = SkinMask.Export(inv.GetHoldingItemTransform());
+                if (files.Count == 0) { Out("Nothing exported - draw the item first."); return; }
+                Out("Exported " + files.Count + " file(s) to " + System.IO.Path.Combine(SkinMask.Dir, "_export") + ":\n  " + string.Join("\n  ", files.ToArray())
+                    + "\nCopy <texture>.png's mask into Skins\\Masks as <texture>.png (white = skin), then 'au parts reload'.");
+                return;
+            }
             if (sub == "parts" && _params.Count > 1 && _params[1].ToLowerInvariant() == "reload")
             {
+                SkinMask.Reload();
                 StockParts.Load(StockPartsModPath());
                 SkinRuntime.Reskin(player, inv.GetHoldingItemTransform());
                 Out("Reloaded " + StockParts.FilePath + ": " + StockParts.Words.Length + " words ("
@@ -106,9 +133,9 @@ namespace ArmoryUnbound
                 Out("Usage: au skin <skinId>\n" + SkinList());
                 return;
             }
-            if (!GunData.IsGun(iv))
+            if (!GunData.IsSupported(iv))
             {
-                Out("Hold a gun first (melee weapons, tools and bows aren't supported).");
+                Out("Hold a gun, bow, melee weapon or tool first (one with a quality level).");
                 return;
             }
 
@@ -159,6 +186,12 @@ namespace ArmoryUnbound
                     List<string> known = Perks.AllPerkIds();
                     Out("Refused: '" + id + "' is not a loaded perk (an item_modifier tagged auPerk). Perk ids are case-sensitive.\n" +
                         "  Loaded perks (" + known.Count + "): " + (known.Count > 0 ? string.Join(", ", known.ToArray()) : "(none)"));
+                    return;
+                }
+                string notFit = Perks.WhyNotFit(id, iv);
+                if (notFit != null)
+                {
+                    Out("Refused: " + Localization.Get(notFit) + " (" + id + " on " + gunLabel + ")");
                     return;
                 }
                 int q = GunData.MinQuality;
@@ -255,7 +288,12 @@ namespace ArmoryUnbound
             string skinId = GunData.GetSkin(iv);
             StringBuilder sb = new StringBuilder();
             sb.Append("Parts of ").Append(gunLabel).Append(" - skin: ").Append(skinId ?? "(none - everything is stock)");
-            sb.Append("\n  Stock-parts words: ").Append(StockParts.Words.Length > 0 ? string.Join(", ", StockParts.Words) : "(none)");
+            SkinApply.Rule rule = SkinApply.Rule.For(iv, inv.GetHoldingItemTransform());
+            if (rule.Dye)
+                sb.Append("\n  Rule: dye rule (").Append(GunData.KindOf(iv)).Append(") - skinned where a dye would colour. Dye ignore list: ")
+                  .Append(rule.DyeIgnore.Count > 0 ? string.Join(", ", rule.DyeIgnore.ToArray()) : "(empty)");
+            else
+                sb.Append("\n  Rule: gun word list. Stock-parts words: ").Append(StockParts.Words.Length > 0 ? string.Join(", ", StockParts.Words) : "(none)");
             List<UnityEngine.Transform> targets = SkinRuntime.Targets(player, inv.GetHoldingItemTransform());
             if (targets.Count == 0) sb.Append("\n  (no model in hand yet - draw the gun and try again)");
             int skinned = 0, stock = 0;
@@ -268,7 +306,7 @@ namespace ArmoryUnbound
                     if (r == null) continue;
                     sb.Append("\n    ").Append(RelPath(r.transform, root));
                     if (!r.gameObject.activeInHierarchy) sb.Append(" [hidden]");
-                    string why = SkinApply.KeepReason(r, root);
+                    string why = SkinApply.KeepReason(r, root, rule);
                     AuSkinMark mark = SkinApply.FindMark(r);
                     UnityEngine.Material[] orig = mark != null ? mark.Originals : r.sharedMaterials;
                     UnityEngine.Material[] cur = r.sharedMaterials;
@@ -277,10 +315,22 @@ namespace ArmoryUnbound
                     {
                         UnityEngine.Material o = orig[i];
                         UnityEngine.Texture t = (o != null && o.HasProperty("_MainTex")) ? o.GetTexture("_MainTex") : null;
-                        sb.Append("\n      slot ").Append(i).Append(" texture '").Append(t != null ? t.name : "-").Append("': ");
+                        sb.Append("\n      slot ").Append(i).Append(" texture '").Append(t != null ? t.name : "-").Append("'");
+                        if (rule.Dye && o != null)   // shader + tint properties, to see how a dye shows on this material
+                        {
+                            sb.Append(" [shader '").Append(o.shader != null ? o.shader.name : "?").Append("'; tint:")
+                              .Append(o.HasProperty("_Color") ? " _Color" : "").Append(o.HasProperty("TintColor") ? " TintColor" : "")
+                              .Append(SkinApply.Tintable(o) ? "" : " none").Append(o.HasProperty("_TintMask") ? "; has _TintMask" : "").Append("]");
+                        }
+                        sb.Append(": ");
                         if (why != null) { sb.Append("stock"); continue; }
                         bool on = mark != null && mark.Made != null && i < mark.Made.Length && mark.Made[i] != null && i < cur.Length && cur[i] == mark.Made[i];
-                        string slotWhy = SkinApply.SlotKeepReason(o);
+                        string slotWhy = SkinApply.SlotKeepReason(o, rule);
+                        if (rule.Dye && slotWhy == null && SkinApply.Eligible(o))
+                        {
+                            MaskSpec ms = SkinMask.For(o, rule.ItemName);
+                            sb.Append(ms == null ? "[whole texture - no mask] " : ms.Kind == "file" ? "[mask file " + System.IO.Path.GetFileName(ms.Source) + "] " : "[auto mask: metal from '" + ms.Source + "'] ");
+                        }
                         if (on) { sb.Append("SKINNED"); skinned++; }
                         else if (!SkinApply.Eligible(o)) { sb.Append("stock (glass/transparent or no texture - never skinned)"); stock++; }
                         else if (slotWhy != null) { sb.Append("STOCK: ").Append(slotWhy); stock++; }
@@ -289,7 +339,8 @@ namespace ArmoryUnbound
                     }
                 }
             }
-            sb.Append("\n  Total: ").Append(skinned).Append(" skinned, ").Append(stock).Append(" stock. Edit Skins\\stock_parts.txt, then 'au parts reload'.");
+            sb.Append("\n  Total: ").Append(skinned).Append(" skinned, ").Append(stock).Append(" stock. ")
+              .Append(rule.Dye ? "Dye rule: skinned parts are the ones a dye colours." : "Edit Skins\\stock_parts.txt, then 'au parts reload'.");
             return sb.ToString();
         }
 

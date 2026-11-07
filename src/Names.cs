@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -67,7 +67,7 @@ namespace ArmoryUnbound
         // Engraved name of a gun, or null (not a gun, or not named).
         public static string Engraved(ItemValue iv)
         {
-            if (iv == null || iv.Metadata == null || !GunData.IsGun(iv)) return null;
+            if (iv == null || iv.Metadata == null || !GunData.IsSupported(iv)) return null;
             return GunData.GetName(iv);
         }
 
@@ -99,7 +99,7 @@ namespace ArmoryUnbound
                 return string.Format(Loc("auUIPartAt", "This part (Q{0}) adds {1}: {2}"), q,
                     (Perks.IsCorrupted(partPerk) ? CorruptColor : PerkColor) + Loc(partPerk, partPerk) + "[-]", what);
             }
-            if (iv == null || iv.Metadata == null || !GunData.IsGun(iv)) return null;
+            if (iv == null || iv.Metadata == null || !GunData.IsSupported(iv)) return null;
             string name = GunData.GetName(iv);
             List<PerkEntry> perks = GunData.GetPerks(iv);
             string skinId = GunData.GetSkin(iv);

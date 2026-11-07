@@ -96,6 +96,56 @@
 		<ingredient name="resourceSpring" count="4"/>
 		<ingredient name="resourcePaper" count="20"/>
 	</recipe>
+
+	<!-- 1.1.0 tool parts (tool-only perks): same base cost as the other parts + one themed ingredient. -->
+	<recipe name="auPartProspector" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceScrapIron" count="50"/>
+	</recipe>
+	<recipe name="auPartDemolisher" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceConcreteMix" count="10"/>
+	</recipe>
+	<recipe name="auPartTireless" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="drinkJarCoffee" count="3"/>
+	</recipe>
+	<recipe name="auPartQuickSwing" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceLeather" count="5"/>
+	</recipe>
+	<recipe name="auPartFeller" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceWood" count="100"/>
+	</recipe>
+	<recipe name="auPartButcher" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceAnimalFat" count="10"/>
+	</recipe>
+	<recipe name="auPartSteadyEdge" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="resourceClayLump" count="20"/>
+	</recipe>
+	<recipe name="auPartLuckyStrike" count="1" time="60" area="auGunsmithBench" tags="auPerkPart">
+		<ingredient name="resourceForgedSteel" count="5"/>
+		<ingredient name="resourceMechanicalParts" count="10"/>
+		<ingredient name="resourceSpring" count="4"/>
+		<ingredient name="casinoCoin" count="100"/>
+	</recipe>
 </append>
 
 <!--

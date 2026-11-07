@@ -1,0 +1,36 @@
+{
+  "_readme": "Per-item mask rules for gen_masks.py. Piece numbers come from a --parts sheet (0 = most triangles). skin: piece list or 'all'; stock: pieces always stock; grip_end: low/high end of the long axis is the handle; grip: fraction of length cut from that end; band: [from, to] keep only that stretch. Decisions AJ 2026-11-07.",
+
+  "meleeWpnBladeT1HuntingKnife":      {"skin": [1, 3], "_why": "blade + spine; handle 0 stock"},
+  "ulmMeleeBladeFoldingKnife":        {"skin": [1], "_why": "blade; handle 0 stock"},
+  "ulmMeleeBladeKnifeCleaverRusty":   {"skin": [0], "_why": "cleaver blade; handle 1 stock"},
+  "ulmMeleeBladeKnifeTitanium":       {"skin": [1], "_why": "blade; handle, guard, pommel stock"},
+  "ulmMeleeBladeSwordIron":           {"skin": [3], "_why": "blade; hilt stock"},
+  "ulmMeleeBladeZweihander":          {"skin": [0, 3], "_why": "ricasso + blade; hilt, guard stock"},
+  "ulmMeleeBladeMisshapedJunkBlade":  {"skin": [4, 5, 7], "_why": "blade plates; pipe handle and bindings stock"},
+  "ulmMeleeBladeRex":                 {"skin": "all", "grip_end": "low", "grip": 0.45, "_why": "everything past the guard, teeth included"},
+  "ulmMeleeBladeSaw":                 {"skin": "all", "grip_end": "low", "grip": 0.45, "_why": "everything past the guard, teeth included"},
+  "meleeWpnBladeT1CandyKnife":        {"skin": "all", "grip_end": "low", "grip": 0.35, "_why": "single piece; cane hook is the handle"},
+
+  "ulmMeleeTwoHandedPipe":            {"skin": [0, 2], "grip_end": "low", "grip": 0.3, "_why": "pipe + elbow; end cap and grip stock"},
+  "ulmMeleeClubRollingPin":           {"skin": [0], "band": [0.22, 0.78], "_why": "single piece: barrel only, both handles stock"},
+  "ulmMeleeClubIron":                 {"skin": "all", "grip_end": "low", "grip": 0.75, "_why": "the head cluster at the top; long handle stock"},
+  "ulmMeleeClubIronMorningStar":      {"skin": [0], "_why": "AJ: ball and spikes only"},
+  "ulmMeleeClubChitin":               {"skin": [0], "grip_end": "low", "grip": 0.3, "_why": "shaft/body; pommel and spikes stock"},
+  "ulmMeleeClubTableLegMace":         {"skin": [0], "grip_end": "low", "grip": 0.3, "_why": "table leg; nails and bindings stock"},
+  "ulmMeleeClubTennisRacket":         {"skin": [0], "grip_end": "low", "grip": 0.3, "_why": "frame; strings and handle stock"},
+  "ulmMeleeClubTitanium":             {"skin": "all", "grip_end": "low", "grip": 0.42, "_why": "shaft + head; grey handle stock"},
+  "meleeWpnClubT3SteelClub":          {"skin": "all", "stock": [9, 38], "grip_end": "low", "grip": 0.45, "_why": "shaft + head fins; hand guard and grip stock"},
+  "meleeWpnClubT1CandyClub":          {"skin": "all", "grip_end": "low", "grip": 0.3, "_why": "AJ: held by the straight end; hook is the striking end"},
+
+  "meleeWpnKnucklesT0LeatherKnuckles":{"skin": "all", "stock": [1, 2, 25, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23, 24], "_why": "leather wraps; buckle and studs stock"},
+  "ulmMeleeKnucklesChitin":           {"skin": [0, 2, 3], "_why": "AJ: the claws"},
+  "ulmMeleeKnucklesTitaniumKnuckles": {"skin": [3, 4, 5], "_why": "AJ: the claws"},
+  "ulmMeleeKnucklesJunkKnuckles":     {"skin": [7], "_why": "body plate (piece 7); bindings, handle, blades, nails stock"},
+  "ulmMeleeKnucklesScrapKnuckles":    {"skin": [0], "_why": "single piece: all of it"},
+
+  "meleeToolSalvageT2Ratchet":        {"skin": [0, 2], "grip_end": "low", "grip": 0.7, "_why": "AJ: ratchet head only; handle and socket stock"},
+  "meleeToolSalvageT3ImpactDriver":   {"skin": [0, 2], "_why": "AJ: nose + motor housing; battery and bit stock"},
+  "ulmMeleeAxeScrapIron":             {"skin": [4], "_why": "axe head; shaft, wire, bindings stock"},
+  "ulmMeleeAxeCrudeIron":             {"skin": [0], "_why": "crescent head; shaft and loop stock"}
+}

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -35,11 +35,52 @@ namespace ArmoryUnbound
             if (noted.Add(key)) Log.Out("[ArmoryUnbound] " + msg);
         }
 
-        // The skin to show for this gun, or null. Unknown ids (image removed) -> stock + one warning.
+        // ---------- 1.1.0 dye rule (melee weapons, tools, bows - AJ 2026-11-02) ----------
+        // A skin covers only what a dye would colour. How dyes work (Assembly-CSharp V2.6 b14,
+        // UpdateLight.SetTintColorForItem / SetTintColor): every renderer of the held item gets _Color and TintColor
+        // set on all its materials, except renderers named in the item's UpdateLight.IgnoreNamedRenderersList (and,
+        // with KFCommonUtilityLib, renderers carrying its IgnoreTint component). A material only shows the dye if its
+        // shader has one of those colour properties. So under the dye rule a part stays stock when dyes skip it, and
+        // a material slot stays stock when its shader has no tint colour. The stock_parts.txt words don't apply.
+        // First-person arms are never skinned on either path (IZY builds them into its weapon models).
+        private static readonly Regex Arms = new Regex("glove|hand_raw|armormod|handwarp|porch", RegexOptions.IgnoreCase);
+        private static readonly Regex BowAmmo = new Regex("arrow|bolt|projectile|ammo", RegexOptions.IgnoreCase);
+
+        public static bool Tintable(Material m)
+        {
+            return m != null && (m.HasProperty("_Color") || m.HasProperty("TintColor"));
+        }
+
+        // The renderer names the item tells dyes to skip: UpdateLight components in the model, or above it.
+        public static List<string> DyeIgnoreNames(Transform model)
+        {
+            List<string> names = new List<string>();
+            if (model == null) return names;
+            List<UpdateLight> uls = new List<UpdateLight>(model.GetComponentsInChildren<UpdateLight>(true));
+            UpdateLight up = model.GetComponentInParent<UpdateLight>();
+            if (up != null && !uls.Contains(up)) uls.Add(up);
+            foreach (UpdateLight ul in uls)
+            {
+                if (ul == null || ul.IgnoreNamedRenderersList == null) continue;
+                foreach (string n in ul.IgnoreNamedRenderersList)
+                    if (!string.IsNullOrEmpty(n) && !names.Contains(n)) names.Add(n);
+            }
+            return names;
+        }
+
+        private static bool NameIn(List<string> names, string n)
+        {
+            if (names == null || n == null) return false;
+            for (int i = 0; i < names.Count; i++)
+                if (string.Equals(names[i], n, StringComparison.OrdinalIgnoreCase)) return true;
+            return false;
+        }
+
+        // The skin to show for this item, or null. Unknown ids (image removed) -> stock + one warning.
         public static SkinInfo SkinFor(ItemValue iv)
         {
             string id = GunData.GetSkin(iv);
-            if (id == null || !GunData.IsGun(iv)) return null;
+            if (id == null || !GunData.IsSupported(iv)) return null;
             SkinInfo s = SkinRegistry.Get(id);
             if (s == null && unknownWarned.Add(id))
                 Log.Warning("[ArmoryUnbound] a gun has skin '" + id + "', which isn't loaded (image removed?) - it shows stock");
@@ -57,11 +98,60 @@ namespace ArmoryUnbound
             return true;
         }
 
+        // Which rule decides the stock parts: guns use the word list; melee weapons, tools and bows use the dye rule
+        // (with the item's dye ignore list, read once from the held model).
+        public sealed class Rule
+        {
+            public bool Dye;
+            public List<string> DyeIgnore;
+            public string ItemName;   // per-item mask files (Skins\Masks\<item>.<texture>.png)
+            public bool Bow;          // arrows / projectiles in the model stay stock
+            public static readonly Rule Guns = new Rule();
+
+            public static Rule For(ItemValue iv, Transform heldModel)
+            {
+                if (!GunData.UsesDyeRule(iv)) return Guns;
+                Rule r = new Rule();
+                r.Dye = true;
+                r.Bow = GunData.KindOf(iv) == GunData.ItemKind.Bow;
+                r.ItemName = iv.ItemClass != null ? iv.ItemClass.Name : null;
+                r.DyeIgnore = DyeIgnoreNames(heldModel);
+                return r;
+            }
+        }
+
+        private static string ArmsReason(Renderer r, Transform root)
+        {
+            if (Arms.IsMatch(r.name)) return "first-person arms ('" + r.name + "') - never skinned";
+            for (Transform t = r.transform.parent; t != null && t != root; t = t.parent)
+                if (Arms.IsMatch(t.name)) return "first-person arms (parent '" + t.name + "') - never skinned";
+            return null;
+        }
+
         // Why this whole renderer stays stock, or null: built-in rule on its name, a stock-parts word in its name
         // or in any parent's name up to (not including) the model root - EFTX attachments sit under mod_* parents.
         public static string KeepReason(Renderer r, Transform root)
         {
+            return KeepReason(r, root, Rule.Guns);
+        }
+
+        public static string KeepReason(Renderer r, Transform root, Rule rule)
+        {
             if (Keep.IsMatch(r.name)) return "built-in rule (bullet/spring) on '" + r.name + "'";
+            string arms = ArmsReason(r, root);
+            if (arms != null) return arms;
+            if (rule != null && rule.Dye)
+            {
+                if (rule.Bow)   // AJ 2026-11-02: arrows and the string are never skinned on bows (strings are masked out)
+                {
+                    if (BowAmmo.IsMatch(r.name)) return "arrow/projectile ('" + r.name + "') - never skinned on a bow";
+                    for (Transform t = r.transform.parent; t != null && t != root; t = t.parent)
+                        if (BowAmmo.IsMatch(t.name)) return "arrow/projectile (parent '" + t.name + "') - never skinned on a bow";
+                }
+                if (r.GetComponent("IgnoreTint") != null) return "dyes skip it (IgnoreTint)";
+                if (NameIn(rule.DyeIgnore, r.gameObject.name)) return "dyes skip it (the item's dye ignore list)";
+                return null;
+            }
             string w = StockParts.Match(r.name);
             if (w != null) return "name '" + r.name + "' has '" + w + "'";
             for (Transform t = r.transform.parent; t != null && t != root; t = t.parent)
@@ -72,9 +162,17 @@ namespace ArmoryUnbound
             return null;
         }
 
-        // Why one material slot stays stock even though its renderer is skinned: its texture name has a word.
+        // Why one material slot stays stock even though its renderer is skinned: its texture name has a word (guns),
+        // or its shader takes no tint colour, so a dye wouldn't show there (dye rule).
         public static string SlotKeepReason(Material m)
         {
+            return SlotKeepReason(m, Rule.Guns);
+        }
+
+        public static string SlotKeepReason(Material m, Rule rule)
+        {
+            if (rule != null && rule.Dye)
+                return Tintable(m) ? null : "not dyeable (shader '" + (m != null && m.shader != null ? m.shader.name : "?") + "' has no tint colour)";
             if (m == null || !m.HasProperty(MainTex)) return null;
             Texture t = m.GetTexture(MainTex);
             if (t == null) return null;
@@ -86,6 +184,11 @@ namespace ArmoryUnbound
         // requested and the slot stays stock until a later pass.
         public static int Apply(Transform root, SkinInfo skin, out int pendingSlots, out int keptRenderers)
         {
+            return Apply(root, skin, Rule.Guns, out pendingSlots, out keptRenderers);
+        }
+
+        public static int Apply(Transform root, SkinInfo skin, Rule rule, out int pendingSlots, out int keptRenderers)
+        {
             pendingSlots = 0;
             keptRenderers = 0;
             if (root == null || skin == null) return 0;
@@ -96,19 +199,19 @@ namespace ArmoryUnbound
             {
                 Renderer rend = rs[r];
                 if (rend == null) continue;
-                if (KeepReason(rend, root) != null)
+                if (KeepReason(rend, root, rule) != null)
                 {
                     keptRenderers++;
                     AuSkinMark old = FindMark(rend);
                     if (old != null) old.RestoreAndRemove();   // skinned before the word list changed
                     continue;
                 }
-                shown += ApplyRenderer(rend, skin, ref pendingSlots, ref keptRenderers);
+                shown += ApplyRenderer(rend, skin, rule, ref pendingSlots, ref keptRenderers);
             }
             return shown;
         }
 
-        private static int ApplyRenderer(Renderer rend, SkinInfo skin, ref int pendingSlots, ref int keptParts)
+        private static int ApplyRenderer(Renderer rend, SkinInfo skin, Rule rule, ref int pendingSlots, ref int keptParts)
         {
             AuSkinMark mark = FindMark(rend);
             if (mark != null && mark.SkinId == skin.Id && mark.Complete) return mark.Shown;
@@ -122,16 +225,17 @@ namespace ArmoryUnbound
                 Material o = originals[i];
                 next[i] = o;
                 if (!Eligible(o)) continue;
-                if (SlotKeepReason(o) != null)
+                if (SlotKeepReason(o, rule) != null)
                 {
                     keptParts++;
                     continue;
                 }
                 Texture src = o.GetTexture(MainTex);
-                Texture2D tex = SkinBuilder.TryGet(skin.Id, src);
+                MaskSpec mask = rule != null && rule.Dye ? SkinMask.For(o, rule.ItemName) : null;   // head-only masks (melee/tools/bows)
+                Texture2D tex = SkinBuilder.TryGet(skin.Id, src, mask);
                 if (tex == null)
                 {
-                    SkinBuilder.Request(skin, src, delegate (Texture2D t) { SkinRuntime.RequestPass(); });
+                    SkinBuilder.Request(skin, src, mask, delegate (Texture2D t) { SkinRuntime.RequestPass(); });
                     waiting++;
                     continue;
                 }
@@ -258,10 +362,12 @@ namespace ArmoryUnbound
                 SkinInfo skin = SkinApply.SkinFor(_itemValue);
                 if (skin == null) return;
                 int pend, kept;
-                int n = SkinApply.Apply(__result, skin, out pend, out kept);
+                SkinApply.Rule rule = SkinApply.Rule.For(_itemValue, __result);
+                int n = SkinApply.Apply(__result, skin, rule, out pend, out kept);
                 SkinApply.Note("clone|" + skin.Id + "|" + __instance.Name,
                     "skin " + skin.Id + " on " + __instance.Name + " (new held model '" + __result.name + "'): " + n + " materials skinned, "
-                    + pend + " waiting for their texture, " + kept + " parts kept stock (keep rules / stock_parts.txt)");
+                    + pend + " waiting for their texture, " + kept + " parts kept stock ("
+                    + (rule.Dye ? "dye rule: " + rule.DyeIgnore.Count + " names on the item's dye ignore list" : "keep rules / stock_parts.txt") + ")");
             }
             catch (Exception e)
             {
@@ -418,10 +524,11 @@ namespace ArmoryUnbound
                 return;
             }
             int shown = 0, pend = 0, kept = 0;
+            SkinApply.Rule rule = SkinApply.Rule.For(iv, held);   // first-person copies use the held model's dye ignore list
             foreach (Transform t in targets)
             {
                 int p, k;
-                shown += SkinApply.Apply(t, skin, out p, out k);
+                shown += SkinApply.Apply(t, skin, rule, out p, out k);
                 pend += p;
                 kept += k;
             }
@@ -439,7 +546,10 @@ namespace ArmoryUnbound
     // mesh and texture, so only separate attachments can stay stock there; EFTX guns have a renderer per part.
     public static class StockParts
     {
-        public static readonly string[] Defaults = { "barrel", "sight", "scope", "grip", "laser", "light", "suppressor", "silencer", "muzzle", "magazine", "mag_", "drum" };
+        // 1.0.1 list: attachments, magazines, IZY's first-person arm gear, and working parts (AJ 2026-11-02).
+        public static readonly string[] Defaults = { "barrel", "sight", "scope", "grip", "laser", "light", "suppressor", "silencer", "muzzle", "magazine", "mag_", "drum",
+            "glove", "hand_raw", "armormod", "handwarp", "porch", "dart",
+            "trigger", "hammer", "hummer", "safety", "selector", "catch", "release", "bolt", "charg", "gas", "bipod", "arrow", "projectile" };
         private static string[] words = Defaults;
         public static string FilePath;
 

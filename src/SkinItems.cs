@@ -93,15 +93,19 @@ namespace ArmoryUnbound
         public const string TraderPartGroup = "auTraderPerkParts";
         private static readonly HashSet<string> NotTraders = new HashSet<string> { "3", "4", "5", "9", "10" };
 
+        // 1.1.0: the tool-parts group is topped up the same way.
+        public const string TraderToolPartGroup = "auTraderToolParts";
+
         private static void TopUpTraders(XElement root, XElement groups)
         {
-            bool haveParts = false, haveSkins = false;
+            string[] ours = { TraderPartGroup, TraderToolPartGroup, TraderGroup };
+            List<string> present = new List<string>();
             foreach (XElement g in groups.Elements("trader_item_group"))
             {
                 string n = (string)g.Attribute("name");
-                if (n == TraderPartGroup) haveParts = true; else if (n == TraderGroup) haveSkins = true;
+                if (Array.IndexOf(ours, n) >= 0 && !present.Contains(n)) present.Add(n);
             }
-            if (!haveParts && !haveSkins) return;
+            if (present.Count == 0) return;
             List<string> added = new List<string>();
             foreach (XElement t in root.Elements("trader_info"))
             {
@@ -110,17 +114,22 @@ namespace ArmoryUnbound
                 if ((string)t.Attribute("allow_sell") == "false" || t.Attribute("player_owned") != null || t.Attribute("rentable") != null) continue;   // vending-style
                 XElement items = t.Element("trader_items");
                 if (items == null) continue;
-                bool hasP = false, hasS = false;
+                List<string> has = new List<string>();
                 foreach (XElement it in items.Elements("item"))
                 {
                     string gr = (string)it.Attribute("group");
-                    if (gr == TraderPartGroup) hasP = true; else if (gr == TraderGroup) hasS = true;
+                    if (gr != null && !has.Contains(gr)) has.Add(gr);
                 }
-                if (haveParts && !hasP) items.Add(new XElement("item", new XAttribute("group", TraderPartGroup), new XAttribute("count", "1")));
-                if (haveSkins && !hasS) items.Add(new XElement("item", new XAttribute("group", TraderGroup), new XAttribute("count", "1")));
-                if ((haveParts && !hasP) || (haveSkins && !hasS)) added.Add(id);
+                bool any = false;
+                foreach (string g in present)
+                {
+                    if (has.Contains(g)) continue;
+                    items.Add(new XElement("item", new XAttribute("group", g), new XAttribute("count", "1")));
+                    any = true;
+                }
+                if (any) added.Add(id);
             }
-            if (added.Count > 0) Log.Out("[ArmoryUnbound] traders: added perk parts/skins to trader(s) " + string.Join(",", added.ToArray()) + " (defined by a mod loading after the add-on)");
+            if (added.Count > 0) Log.Out("[ArmoryUnbound] traders: added perk parts/tool parts/skins to trader(s) " + string.Join(",", added.ToArray()) + " (defined by a mod loading after the add-on)");
         }
 
         private static HashSet<string> Existing(XElement root, string element)

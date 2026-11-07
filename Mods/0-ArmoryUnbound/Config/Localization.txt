@@ -22,7 +22,7 @@ auPerkSledgeDesc,items,Item,,,"10-30% chance per hit to knock the target down, b
 auPerkTarPit,items,Item,,,Tar Pit
 auPerkTarPitDesc,items,Item,,,"Hits slow the target down, 40-100% of the time by part quality."
 auPerkScholar,items,Item,,,Scholar
-auPerkScholarDesc,items,Item,,,"+10-35% XP while this gun is in your hands, by part quality."
+auPerkScholarDesc,items,Item,,,"+10-35% XP while it's in your hands, by part quality."
 auPerkGlassCannon,items,Item,,,Glass Cannon
 auPerkGlassCannonDesc,items,Item,,,"+60-100% damage. Drawback: -40 to -10% durability. Better upside, smaller drawback at higher part quality."
 auPerkOverclock,items,Item,,,Overclock
@@ -50,7 +50,7 @@ auPerkKindlingAt,items,Item,,,Hits set the target on fire {T:onSelfAttackedOther
 auPerkCanOpenerAt,items,Item,,,"Ignores {P:TargetArmor:1:abs}% of armour, and hits shred the target's armour."
 auPerkSledgeAt,items,Item,,,{T:onSelfAttackedOther}% chance per hit to knock the target down.
 auPerkTarPitAt,items,Item,,,Hits slow the target down {T:onSelfAttackedOther}% of the time.
-auPerkScholarAt,items,Item,,,{P:PlayerExpGain}% XP while this gun is in your hands.
+auPerkScholarAt,items,Item,,,{P:PlayerExpGain}% XP while it's in your hands.
 auPerkGlassCannonAt,items,Item,,,{P:EntityDamage}% damage. Drawback: {P:DegradationMax}% durability.
 auPerkOverclockAt,items,Item,,,{P:RoundsPerMinute}% fire rate. Drawback: {P:DegradationPerUse}% wear per shot.
 auPerkHungryMagAt,items,Item,,,{P:MagazineSize}% magazine size. Drawback: {P:ReloadSpeedMultiplier}% reload speed.
@@ -62,50 +62,50 @@ auPerkHellfireAt,items,Item,,,Hits always burn and bleed the target. Drawback: {
 auUIPartAt,UI,XUi,,,This part (Q{0}) adds {1}: {2}
 auUIPerks,UI,XUi,,,Perks
 auGunsmithBench,blocks,Block,,,AU Gunsmith Bench
-auGunsmithBenchDesc,blocks,Block,,,"A bench for gun work. Craft perk parts here, and give any gun an engraved name, a skin and as many perks as it has mod slots. A Repair Kit in the part slot takes a perk off again and gives its part back."
+auGunsmithBenchDesc,blocks,Block,,,"A bench for gun work. Craft perk parts here, and give any gun, bow, melee weapon or tool an engraved name, a skin and as many perks as it has mod slots. A Repair Kit in the part slot takes a perk off again and gives its part back."
 auWorkstationGunsmithBench,progression,Crafting,,,Gunsmith Bench
 auPartHardHitter,items,Item,,,AU Hard Hitter Core
-auPartHardHitterDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Hard Hitter perk to a gun: +15-35% damage, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartHardHitterDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Hard Hitter perk: +15-35% damage, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartDeepWell,items,Item,,,AU Deep Well Core
-auPartDeepWellDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Deep Well perk to a gun: +25-75% magazine size, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartDeepWellDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Deep Well perk: +25-75% magazine size, by this part's quality. Works on guns only. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartQuickhands,items,Item,,,AU Quickhands Core
-auPartQuickhandsDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Quickhands perk to a gun: +15-40% reload speed, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartQuickhandsDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Quickhands perk: +15-40% reload speed, by this part's quality. Works on guns and bows. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartIronclad,items,Item,,,AU Ironclad Core
-auPartIroncladDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Ironclad perk to a gun: +50-150% durability, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartIroncladDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Ironclad perk: +50-150% durability, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartExecutioner,items,Item,,,AU Executioner Core
-auPartExecutionerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Executioner perk to a gun: +30-90% headshot damage, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartExecutionerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Executioner perk: +30-90% headshot damage, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartSecondWind,items,Item,,,AU Second Wind Core
-auPartSecondWindDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Second Wind perk to a gun: kills restore 8-25 health, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartSecondWindDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Second Wind perk: kills restore 8-25 health, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartBloodletter,items,Item,,,AU Bloodletter Core
-auPartBloodletterDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Bloodletter perk to a gun: hits make the target bleed 40-100% of the time, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartBloodletterDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Bloodletter perk: hits make the target bleed 40-100% of the time, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartKindling,items,Item,,,AU Kindling Core
-auPartKindlingDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Kindling perk to a gun: hits set the target on fire 40-100% of the time, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartKindlingDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Kindling perk: hits set the target on fire 40-100% of the time, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartCanOpener,items,Item,,,AU Can Opener Core
-auPartCanOpenerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Can Opener perk to a gun: ignores 20-50% of armour by this part's quality, and hits shred armour. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartCanOpenerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Can Opener perk: ignores 20-50% of armour by this part's quality, and hits shred armour. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartSledge,items,Item,,,AU Sledge Core
-auPartSledgeDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Sledge perk to a gun: 10-30% chance per hit to knock the target down, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartSledgeDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Sledge perk: 10-30% chance per hit to knock the target down, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartTarPit,items,Item,,,AU Tar Pit Core
-auPartTarPitDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Tar Pit perk to a gun: hits slow the target 40-100% of the time, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartTarPitDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Tar Pit perk: hits slow the target 40-100% of the time, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartScholar,items,Item,,,AU Scholar Core
-auPartScholarDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Scholar perk to a gun: +10-35% XP while it's in your hands, by this part's quality. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPartScholarDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Scholar perk: +10-35% XP while it's in your hands, by this part's quality. Works on guns, bows, melee weapons and tools. Crafted parts start at quality 1; upgrade them at a Maintenance Station."
 auPartGlassCannon,items,Item,,,AU Corrupted Glass Cannon Core
-auPartGlassCannonDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Glass Cannon to a gun: +60-100% damage, but -40 to -10% durability. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartGlassCannonDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Glass Cannon: +60-100% damage, but -40 to -10% durability. Works on guns, bows, melee weapons and tools. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartOverclock,items,Item,,,AU Corrupted Overclock Core
-auPartOverclockDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Overclock to a gun: +40-70% fire rate, but +50 to +15% wear per shot. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartOverclockDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Overclock: +40-70% fire rate, but +50 to +15% wear per shot. Works on guns and bows. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartHungryMag,items,Item,,,AU Corrupted Hungry Mag Core
-auPartHungryMagDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Hungry Mag to a gun: +100-150% magazine size, but -25 to -5% reload speed. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartHungryMagDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Hungry Mag: +100-150% magazine size, but -25 to -5% reload speed. Works on guns only. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartDeadeye,items,Item,,,AU Corrupted Deadeye Core
-auPartDeadeyeDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Deadeye to a gun: +120-200% headshot damage, but -20 to -5% damage to every other body part. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartDeadeyeDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Deadeye: +120-200% headshot damage, but -20 to -5% damage to every other body part. Works on guns, bows, melee weapons and tools. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartBloodprice,items,Item,,,AU Corrupted Bloodprice Core
-auPartBloodpriceDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Bloodprice to a gun: +50-80% damage and kills heal 20-35, but starting a reload costs 5 to 1 health. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartBloodpriceDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Bloodprice: +50-80% damage and kills heal 20-35, but starting a reload costs 5 to 1 health. Works on guns and bows. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartLeech,items,Item,,,AU Corrupted Leech Core
-auPartLeechDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Leech to a gun: hits heal you 10-20% of the damage dealt, but -15 to -5% max stamina while held. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartLeechDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Leech: hits heal you 10-20% of the damage dealt, but -15 to -5% max stamina while held. Works on guns, bows, melee weapons and tools. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartWildcat,items,Item,,,AU Corrupted Wildcat Core
-auPartWildcatDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Wildcat to a gun: +35-60% damage and +25-40% fire rate, but +60 to +20% recoil. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPartWildcatDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Wildcat: +35-60% damage and +25-40% fire rate, but +60 to +20% recoil. Works on guns and bows. Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
 auPartHellfire,items,Item,,,AU Corrupted Hellfire Core
-auPartHellfireDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Hellfire to a gun: hits always burn and bleed, but +100 to +30% noise. Upgrading it at a Maintenance Station shrinks the drawback."
+auPartHellfireDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Hellfire: hits always burn and bleed, but +100 to +30% noise. Works on guns, bows, melee weapons and tools. Upgrading it at a Maintenance Station shrinks the drawback."
 auUIGunsmith,UI,XUi,,,GUNSMITH
-auUIGun,UI,XUi,,,Gun
+auUIGun,UI,XUi,,,Item
 auUIPart,UI,XUi,,,Perk part
 auUIName,UI,XUi,,,Engraved name (set once)
 auUINameLocked,UI,XUi,,,Engraved name (locked)
@@ -119,32 +119,90 @@ auUIConfirmYes,UI,XUi,,,CONFIRM
 auUIConfirmNo,UI,XUi,,,CANCEL
 auUIConfirm,UI,XUi,,,Apply these changes? An engraved name can never be changed.
 auUIUsesPart,UI,XUi,,,Uses 1 {0}
-auUIStatusNoGun,UI,XUi,,,Put a gun in the gun slot.
+auUIStatusNoGun,UI,XUi,,,"Put a gun, bow, melee weapon or tool in the slot."
 auUIStatusNothing,UI,XUi,,,"Type a name, or add a perk part, a Repair Kit or a skin."
 auUIStatusApplied,UI,XUi,,,Applied.
 auUIStatusCancelled,UI,XUi,,,Cancelled. Nothing changed.
 auUIStatusChanged,UI,XUi,,,Something changed. Nothing was applied.
-auUIPerkFull,UI,XUi,,,"Every perk slot is used ({0}/{1}). Upgrade the gun for more, or remove a perk with a Repair Kit."
-auUITipOnlyGuns,UI,XUi,,,Only guns go in this slot.
+auUIPerkFull,UI,XUi,,,"Every perk slot is used ({0}/{1}). Upgrade the item for more, or remove a perk with a Repair Kit."
+auUITipOnlyGuns,UI,XUi,,,"Only guns, bows, melee weapons and tools with a quality level go in this slot."
 auUITipOnlyParts,UI,XUi,,,Only perk parts or a Repair Kit go in this slot.
-auUITipGunFull,UI,XUi,,,Every perk slot on this gun is used. Take one off with a Repair Kit first.
-auUITipNoPerks,UI,XUi,,,This gun has no perks to remove.
+auUITipGunFull,UI,XUi,,,Every perk slot on this item is used. Take one off with a Repair Kit first.
+auUITipPerkMagBow,UI,XUi,,,Magazine perks don't work on bows - a bow holds one arrow.
+auUITipPerkGunOnly,UI,XUi,,,"That perk only works on guns (and bows, unless it's a magazine perk)."
+auUITipNoPerks,UI,XUi,,,This item has no perks to remove.
 auUIRemoveTitle,UI,XUi,,,Repair Kit: pick the perk to remove
 auUIRemoveWill,UI,XUi,,,will be removed
 auUIConfirmRemovePerk,UI,XUi,,,"{0} will be taken off. Its part comes back at quality {1}."
 auUIConfirmRemoveNoPart,UI,XUi,,,{0} will be taken off. It has no part to give back.
 auUIPartBack,UI,XUi,,,part comes back
 auUICorrupted,UI,XUi,,,corrupted
-auSkinItemDesc,items,Item,,,"Put this in the Gunsmith Bench with a gun to give that one gun this pattern. A gun keeps its skin until it's scrubbed off with a Paint Removal Kit. Shows on the gun in your hands, first and third person."
+auSkinItemDesc,items,Item,,,"Put this in the Gunsmith Bench with a gun, bow, melee weapon or tool to give that one item this pattern. It keeps its skin until it's scrubbed off with a Paint Removal Kit. Shows on it in your hands, first and third person."
 auUISkin,UI,XUi,,,Skin
 auUISkinMissing,UI,XUi,,,image missing
 auUITipOnlySkins,UI,XUi,,,Only skin items or a Paint Removal Kit go in this slot.
-auUITipGunSkinned,UI,XUi,,,This gun already has a skin. Scrub it off with a Paint Removal Kit first.
+auUITipGunSkinned,UI,XUi,,,This item already has a skin. Scrub it off with a Paint Removal Kit first.
 auUIPartShort,UI,XUi,,,Part
 auUITabGunsmith,UI,XUi,,,GUNSMITH
 auUITabCrafting,UI,XUi,,,CRAFTING
 auPaintRemover,items,Item,,,AU Paint Removal Kit
-auPaintRemoverDesc,items,Item,,,"Put this in the Gunsmith Bench's skin slot with a skinned gun to scrub the skin off. The skin is destroyed; the gun looks stock again and can take a new skin."
-auUITipNoSkin,UI,XUi,,,This gun has no skin to remove.
+auPaintRemoverDesc,items,Item,,,"Put this in the Gunsmith Bench's skin slot with a skinned item to scrub the skin off. The skin is destroyed; it looks stock again and can take a new skin."
+auUITipNoSkin,UI,XUi,,,This item has no skin to remove.
 auUISkinRemoved,UI,XUi,,,will be removed
 auUIConfirmRemoveSkin,UI,XUi,,,"{0} will be scrubbed off and destroyed"
+auPerkProspector,items,Item,,,Prospector
+auPerkProspectorDesc,items,Item,,,"+15-50% harvest yield (ore, stone, wood, soil), by part quality."
+auPerkProspectorAt,items,Item,,,"{P:HarvestCount}% harvest yield (ore, stone, wood, soil)."
+auPartProspector,items,Item,,,AU Prospector Core
+auPartProspectorDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Prospector perk: +15-50% harvest yield (ore, stone, wood, soil), by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkDemolisher,items,Item,,,Demolisher
+auPerkDemolisherDesc,items,Item,,,"+20-60% damage to blocks, by part quality."
+auPerkDemolisherAt,items,Item,,,{P:BlockDamage}% damage to blocks.
+auPartDemolisher,items,Item,,,AU Demolisher Core
+auPartDemolisherDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Demolisher perk: +20-60% damage to blocks, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkTireless,items,Item,,,Tireless
+auPerkTirelessDesc,items,Item,,,"-15-40% stamina per swing, by part quality."
+auPerkTirelessAt,items,Item,,,{P:StaminaLoss}% stamina per swing.
+auPartTireless,items,Item,,,AU Tireless Core
+auPartTirelessDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Tireless perk: -15-40% stamina per swing, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkQuickSwing,items,Item,,,Quick Swing
+auPerkQuickSwingDesc,items,Item,,,"+10-30% swing speed, by part quality."
+auPerkQuickSwingAt,items,Item,,,{P:AttacksPerMinute}% swing speed.
+auPartQuickSwing,items,Item,,,AU Quick Swing Core
+auPartQuickSwingDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Quick Swing perk: +10-30% swing speed, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkFeller,items,Item,,,Feller
+auPerkFellerDesc,items,Item,,,"+30-80% damage to trees and wood blocks, by part quality."
+auPerkFellerAt,items,Item,,,{P:BlockDamage}% damage to trees and wood blocks.
+auPartFeller,items,Item,,,AU Feller Core
+auPartFellerDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Feller perk: +30-80% damage to trees and wood blocks, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkButcher,items,Item,,,Butcher
+auPerkButcherDesc,items,Item,,,"+20-60% meat, hide and bone from corpses, by part quality."
+auPerkButcherAt,items,Item,,,"{P:HarvestCount}% meat, hide and bone from corpses."
+auPartButcher,items,Item,,,AU Butcher Core
+auPartButcherDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Butcher perk: +20-60% meat, hide and bone from corpses, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkSteadyEdge,items,Item,,,Steady Edge
+auPerkSteadyEdgeDesc,items,Item,,,"-20-60% wear per hit, by part quality."
+auPerkSteadyEdgeAt,items,Item,,,{P:DegradationPerUse}% wear per hit.
+auPartSteadyEdge,items,Item,,,AU Steady Edge Core
+auPartSteadyEdgeDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Steady Edge perk: -20-60% wear per hit, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkLuckyStrike,items,Item,,,Lucky Strike
+auPerkLuckyStrikeDesc,items,Item,,,"3-15% chance that a harvest gives double, by part quality."
+auPerkLuckyStrikeAt,items,Item,,,{R:HarvestCount}% chance that a harvest gives double.
+auPartLuckyStrike,items,Item,,,AU Lucky Strike Core
+auPartLuckyStrikeDesc,items,Item,,,"A perk part. At a Gunsmith Bench it adds the Lucky Strike perk: 3-15% chance that a harvest gives double, by part quality. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Crafted parts start at quality 1; upgrade them at a Maintenance Station."
+auPerkOverdrive,items,Item,,,Overdrive
+auPerkOverdriveDesc,items,Item,,,"+50-90% block damage. Drawback: +40 to +10% stamina per swing. Better upside, smaller drawback at higher part quality."
+auPerkOverdriveAt,items,Item,,,{P:BlockDamage}% block damage. Drawback: {P:StaminaLoss}% stamina per swing.
+auPartOverdrive,items,Item,,,AU Corrupted Overdrive Core
+auPartOverdriveDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Overdrive: +50-90% block damage. Drawback: +40 to +10% stamina per swing. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPerkGreedy,items,Item,,,Greedy
+auPerkGreedyDesc,items,Item,,,"+60-100% harvest yield. Drawback: -30 to -10% durability. Better upside, smaller drawback at higher part quality."
+auPerkGreedyAt,items,Item,,,{P:HarvestCount}% harvest yield. Drawback: {P:DegradationMax}% durability.
+auPartGreedy,items,Item,,,AU Corrupted Greedy Core
+auPartGreedyDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Greedy: +60-100% harvest yield. Drawback: -30 to -10% durability. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auPerkEarthshaker,items,Item,,,Earthshaker
+auPerkEarthshakerDesc,items,Item,,,"Hits also damage the 4 blocks around the one you hit, for 30-60% of the hit. Drawback: +60 to +20% wear per hit. Better upside, smaller drawback at higher part quality."
+auPerkEarthshakerAt,items,Item,,,"Hits also damage the 4 blocks around the one you hit, for 30-60% of the hit (more at higher quality). Drawback: {P:DegradationPerUse}% wear per hit."
+auPartEarthshaker,items,Item,,,AU Corrupted Earthshaker Core
+auPartEarthshakerDesc,items,Item,,,"A corrupted perk part, found only in hardened chests. At a Gunsmith Bench it adds Earthshaker: Hits also damage the 4 blocks around the one you hit, for 30-60% of the hit. Drawback: +60 to +20% wear per hit. Works on tools only (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers). Upgrading it at a Maintenance Station raises the upside and shrinks the drawback."
+auUITipPerkToolOnly,UI,XUi,,,"That perk only works on tools (axes, picks, shovels, hammers, wrenches, sickles, knives, machetes, sledgehammers)."

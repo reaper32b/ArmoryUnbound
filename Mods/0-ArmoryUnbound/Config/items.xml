@@ -415,6 +415,230 @@
 			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
 		</effect_group>
 	</item>
+
+	<!-- 1.1.0 tool parts (tool-only perks). Icons: a related part's icon tinted amber (placeholder). -->
+	<item name="auPartProspector">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartCanOpener"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartProspectorDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkProspector"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartDemolisher">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartSledge"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartDemolisherDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkDemolisher"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartTireless">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartSecondWind"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartTirelessDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkTireless"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartQuickSwing">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartQuickhands"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartQuickSwingDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkQuickSwing"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartFeller">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartIronclad"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartFellerDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkFeller"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartButcher">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartBloodletter"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartButcherDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkButcher"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartSteadyEdge">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartTarPit"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartSteadyEdgeDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkSteadyEdge"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartLuckyStrike">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartScholar"/>
+		<property name="CustomIconTint" value="ffc04a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartLuckyStrikeDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart"/>
+		<property name="AuPerk" value="auPerkLuckyStrike"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auPerkPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="1500"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+
+	<!-- 1.1.0 corrupted tool parts: loot only (hardened chests), amber-red. -->
+	<item name="auPartOverdrive">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartSledge"/>
+		<property name="CustomIconTint" value="ff7a3a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartOverdriveDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart,auCorruptPart"/>
+		<property name="AuPerk" value="auPerkOverdrive"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auCorruptPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="3000"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartGreedy">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartScholar"/>
+		<property name="CustomIconTint" value="ff7a3a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartGreedyDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart,auCorruptPart"/>
+		<property name="AuPerk" value="auPerkGreedy"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auCorruptPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="3000"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
+	<item name="auPartEarthshaker">
+		<property name="Extends" value="partsMaster"/>
+		<property name="CreativeMode" value="Player"/>
+		<property name="CustomIcon" value="auPartHardHitter"/>
+		<property name="CustomIconTint" value="ff7a3a"/>
+		<property name="ItemTypeIcon" value="gunsmithing"/>
+		<property name="DescriptionKey" value="auPartEarthshakerDesc"/>
+		<property name="Tags" value="auPerkPart,auToolPart,auCorruptPart"/>
+		<property name="AuPerk" value="auPerkEarthshaker"/>
+		<property name="Stacknumber" value="1"/>
+		<property name="ShowQuality" value="true"/>
+		<property name="MaintenanceGroup" value="MG_auCorruptPart"/>
+		<property name="Weight" value="1"/>
+		<property name="EconomicValue" value="3000"/>
+		<property name="SoundPickup" value="parts_grab"/>
+		<property name="SoundPlace" value="parts_place"/>
+		<effect_group name="auPartQuality" tiered="true">
+			<passive_effect name="EconomicValue" operation="perc_add" value="0,0" tier="1,90"/>
+		</effect_group>
+	</item>
 </append>
 <!-- Paint Removal Kit (2026-10-29): skin slot at the Gunsmith Bench, scrubs a gun's skin off (skin destroyed).
      Recipe is generated by the DLL (SkinItems.cs) so UL's XML cache can't drop it; loot via the auSkins group. -->

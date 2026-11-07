@@ -23,6 +23,16 @@
 		<item name="auPartTarPit" stage="modsT1" quality="1,40"/>
 		<item name="auPartScholar" stage="modsT1" quality="1,40"/>
 	</trader_item_group>
+	<trader_item_group name="auTraderToolParts">
+		<item name="auPartProspector" stage="modsT1" quality="1,40"/>
+		<item name="auPartDemolisher" stage="modsT1" quality="1,40"/>
+		<item name="auPartTireless" stage="modsT1" quality="1,40"/>
+		<item name="auPartQuickSwing" stage="modsT1" quality="1,40"/>
+		<item name="auPartFeller" stage="modsT1" quality="1,40"/>
+		<item name="auPartButcher" stage="modsT1" quality="1,40"/>
+		<item name="auPartSteadyEdge" stage="modsT1" quality="1,40"/>
+		<item name="auPartLuckyStrike" stage="modsT1" quality="1,40"/>
+	</trader_item_group>
 	<trader_item_group name="auTraderSkins">
 		<item name="auSkinCarbonFibre"/>
 		<item name="auSkinDamascusSteel"/>
@@ -39,20 +49,20 @@
 </append>
 
 <!-- Gun traders: 1-3 parts, 1-2 skins per restock -->
-<append xpath="/traders/trader_info[@id='1']/trader_items"><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Joel -->
-<append xpath="/traders/trader_info[@id='8']/trader_items"><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Rekt -->
-<append xpath="/traders/trader_info[@id='17']/trader_items"><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Maxton -->
-<append xpath="/traders/trader_info[@id='19']/trader_items"><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Logan -->
-<append xpath="/traders/trader_info[@id='20']/trader_items"><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Raiden -->
-<append xpath="/traders/trader_info[@id='21']/trader_items"><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Hagen -->
+<append xpath="/traders/trader_info[@id='1']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Joel -->
+<append xpath="/traders/trader_info[@id='8']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Rekt -->
+<append xpath="/traders/trader_info[@id='17']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Maxton -->
+<append xpath="/traders/trader_info[@id='19']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Logan -->
+<append xpath="/traders/trader_info[@id='20']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Raiden -->
+<append xpath="/traders/trader_info[@id='21']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1,3"/><item group="auTraderSkins" count="1,2"/></append><!-- Hagen -->
 
 <!-- Everyone else: 1 part, 1 skin per restock -->
-<append xpath="/traders/trader_info[@id='2']/trader_items"><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Jen -->
-<append xpath="/traders/trader_info[@id='6']/trader_items"><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Bob -->
-<append xpath="/traders/trader_info[@id='7']/trader_items"><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Hugh -->
-<append xpath="/traders/trader_info[@id='16']/trader_items"><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Ellen -->
-<append xpath="/traders/trader_info[@id='18']/trader_items"><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Ethan -->
-<append xpath="/traders/trader_info[@id='22']/trader_items"><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Ryan -->
+<append xpath="/traders/trader_info[@id='2']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Jen -->
+<append xpath="/traders/trader_info[@id='6']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Bob -->
+<append xpath="/traders/trader_info[@id='7']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Hugh -->
+<append xpath="/traders/trader_info[@id='16']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Ellen -->
+<append xpath="/traders/trader_info[@id='18']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Ethan -->
+<append xpath="/traders/trader_info[@id='22']/trader_items"><item group="auTraderToolParts" count="1"/><item group="auTraderPerkParts" count="1"/><item group="auTraderSkins" count="1"/></append><!-- Ryan -->
 <!-- Bdubs' vehicle trader (id 75) is added by ZZZ_BDUBS_UL, which loads after this add-on, so it can't be reached from here.
      The DLL gives it (and any other real trader a later mod adds) 1 roll of each group once every mod has patched traders.xml. -->
 </configs>

@@ -82,9 +82,43 @@
 		<item name="auPartLeech" count="1"/>
 		<item name="auPartWildcat" count="1"/>
 		<item name="auPartHellfire" count="1"/>
+		<item name="auPartOverdrive" count="1"/>
+		<item name="auPartGreedy" count="1"/>
+		<item name="auPartEarthshaker" count="1"/>
 	</lootgroup>
 </insertBefore>
 
 <append xpath="/lootcontainers/lootgroup[@name='groupHardenedChestT4']"><item group="auCorruptParts" count="1" prob="0.05" force_prob="true"/></append><!-- tier 4 -->
 <append xpath="/lootcontainers/lootgroup[@name='groupHardenedChestT5']"><item group="auCorruptParts" count="1" prob="0.10" force_prob="true"/></append><!-- tier 5 -->
+
+<!--
+  1.1.0: tool parts. Their own group, rolled in tool containers (toolboxes, garages, workbenches, construction
+  crates, crafting toolboxes) and the POI chests at the same chances as the other parts. Corrupted tool parts join
+  auCorruptParts (hardened chests T4/T5 only).
+-->
+<insertBefore xpath="/lootcontainers/lootgroup[1]">
+	<lootgroup name="auToolParts">
+		<item name="auPartProspector" count="1"/>
+		<item name="auPartDemolisher" count="1"/>
+		<item name="auPartTireless" count="1"/>
+		<item name="auPartQuickSwing" count="1"/>
+		<item name="auPartFeller" count="1"/>
+		<item name="auPartButcher" count="1"/>
+		<item name="auPartSteadyEdge" count="1"/>
+		<item name="auPartLuckyStrike" count="1"/>
+	</lootgroup>
+</insertBefore>
+<append xpath="/lootcontainers/lootgroup[@name='groupToolbox']"><item group="auToolParts" count="1" prob="0.03" force_prob="true"/></append><!-- toolbox -->
+<append xpath="/lootcontainers/lootgroup[@name='groupRollingToolbox']"><item group="auToolParts" count="1" prob="0.04" force_prob="true"/></append><!-- rolling toolbox -->
+<append xpath="/lootcontainers/lootgroup[@name='groupGarage']"><item group="auToolParts" count="1" prob="0.02" force_prob="true"/></append><!-- garage -->
+<append xpath="/lootcontainers/lootgroup[@name='groupWorkbenchLoot']"><item group="auToolParts" count="1" prob="0.03" force_prob="true"/></append><!-- collapsed workbench -->
+<append xpath="/lootcontainers/lootgroup[@name='groupConstructionCrate']"><item group="auToolParts" count="1" prob="0.02" force_prob="true"/></append><!-- construction crate -->
+<append xpath="/lootcontainers/lootgroup[@name='groupCraftingToolboxCommon']"><item group="auToolParts" count="1" prob="0.03" force_prob="true"/></append><!-- crafting toolbox -->
+<append xpath="/lootcontainers/lootgroup[@name='groupCraftingToolboxUncommon']"><item group="auToolParts" count="1" prob="0.05" force_prob="true"/></append>
+<append xpath="/lootcontainers/lootgroup[@name='groupCraftingToolboxRare']"><item group="auToolParts" count="1" prob="0.08" force_prob="true"/></append>
+<append xpath="/lootcontainers/lootgroup[@name='groupReinforcedChestT1']"><item group="auToolParts" count="1" prob="0.03" force_prob="true"/></append><!-- POI chests -->
+<append xpath="/lootcontainers/lootgroup[@name='groupReinforcedChestT2']"><item group="auToolParts" count="1" prob="0.05" force_prob="true"/></append>
+<append xpath="/lootcontainers/lootgroup[@name='groupReinforcedChestT3']"><item group="auToolParts" count="1" prob="0.08" force_prob="true"/></append>
+<append xpath="/lootcontainers/lootgroup[@name='groupHardenedChestT4']"><item group="auToolParts" count="1" prob="0.12" force_prob="true"/></append>
+<append xpath="/lootcontainers/lootgroup[@name='groupHardenedChestT5']"><item group="auToolParts" count="1" prob="0.20" force_prob="true"/></append>
 </configs>

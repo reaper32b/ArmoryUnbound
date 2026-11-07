@@ -8,7 +8,7 @@ namespace ArmoryUnbound
     // Mod entry point. The game finds IModApi classes in every DLL inside a mod folder.
     public class ArmoryUnboundMod : IModApi
     {
-        public const string Version = "1.0.0";
+        public const string Version = "1.1.0";
         public const string HarmonyId = "aj.armoryunbound";
 
         public void InitMod(Mod _modInstance)
@@ -41,6 +41,7 @@ namespace ArmoryUnbound
             {
                 SkinRegistry.Load(_modInstance.Path);
                 StockParts.Load(_modInstance.Path);
+                SkinMask.Init(_modInstance.Path);
                 SkinItems.AddLocalization();   // in case localization was loaded before us; SelectLanguage postfix covers reloads
             }
             catch (Exception e)
@@ -65,6 +66,19 @@ namespace ArmoryUnbound
             catch (Exception e)
             {
                 Log.Error("[ArmoryUnbound] requirement check failed: " + e);
+            }
+            // 1.1.0: Earthshaker's action, resolved the way MinEventActionBase.ParseAction does it.
+            try
+            {
+                Type t = ReflectionHelpers.GetTypeWithPrefix("MinEventAction", MinEventActionAuAreaBlockDamage.XmlName);
+                if (t == typeof(MinEventActionAuAreaBlockDamage))
+                    Log.Out("[ArmoryUnbound] action '" + MinEventActionAuAreaBlockDamage.XmlName + "' resolves - Earthshaker works");
+                else
+                    Log.Error("[ArmoryUnbound] action '" + MinEventActionAuAreaBlockDamage.XmlName + "' does NOT resolve (" + (t == null ? "null" : t.FullName) + ") - Earthshaker does nothing");
+            }
+            catch (Exception e)
+            {
+                Log.Error("[ArmoryUnbound] action check failed: " + e);
             }
         }
     }

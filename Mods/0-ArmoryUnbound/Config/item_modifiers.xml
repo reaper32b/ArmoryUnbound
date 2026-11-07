@@ -23,6 +23,8 @@
     modifier_tags="auPerk,auCorrupted": shown in red. Give it an upside that grows (value="low,high") and a drawback that
     shrinks (value="-big,-small") with tier="1,90". Its part goes in loot only (see items.xml / the UL add-on's loot.xml).
 
+  KIND TAGS (1.1.0): add auGunOnly to a perk that only works on guns (magazine, reload, fire rate, recoil) - the bench and console refuse it on melee weapons and tools; add auMagPerk to a magazine-size perk - also refused on bows. Everything else works on every kind.
+
   ADDING YOUR OWN PERK: copy a block, give it a new name, keep the tags, add "<name>" and "<name>Desc" to Localization.txt,
   and make a part for it in items.xml (property AuPerk = the perk name). No code needed.
   Hit effects only apply to targets tagged zombie or animal. Numbers are plain XML - tune them here.
@@ -39,7 +41,7 @@
 	</item_modifier>
 
 	<!-- Deep Well: +25% -> +75% magazine size -->
-	<item_modifier name="auPerkDeepWell" modifier_tags="auPerk" type="attachment">
+	<item_modifier name="auPerkDeepWell" modifier_tags="auPerk,auGunOnly,auMagPerk" type="attachment">
 		<property name="CreativeMode" value="None"/>
 		<property name="DescriptionKey" value="auPerkDeepWellDesc"/>
 		<effect_group tiered="false">
@@ -48,7 +50,7 @@
 	</item_modifier>
 
 	<!-- Quickhands: +15% -> +40% reload speed -->
-	<item_modifier name="auPerkQuickhands" modifier_tags="auPerk" type="attachment">
+	<item_modifier name="auPerkQuickhands" modifier_tags="auPerk,auGunOnly" type="attachment">
 		<property name="CreativeMode" value="None"/>
 		<property name="DescriptionKey" value="auPerkQuickhandsDesc"/>
 		<effect_group tiered="false">
@@ -266,7 +268,7 @@
 	</item_modifier>
 
 	<!-- Overclock: +40% -> +70% fire rate | +50% -> +15% wear per shot -->
-	<item_modifier name="auPerkOverclock" modifier_tags="auPerk,auCorrupted" type="attachment">
+	<item_modifier name="auPerkOverclock" modifier_tags="auPerk,auCorrupted,auGunOnly" type="attachment">
 		<property name="CreativeMode" value="None"/>
 		<property name="DescriptionKey" value="auPerkOverclockDesc"/>
 		<effect_group tiered="false">
@@ -276,7 +278,7 @@
 	</item_modifier>
 
 	<!-- Hungry Mag: +100% -> +150% magazine size | -25% -> -5% reload speed -->
-	<item_modifier name="auPerkHungryMag" modifier_tags="auPerk,auCorrupted" type="attachment">
+	<item_modifier name="auPerkHungryMag" modifier_tags="auPerk,auCorrupted,auGunOnly,auMagPerk" type="attachment">
 		<property name="CreativeMode" value="None"/>
 		<property name="DescriptionKey" value="auPerkHungryMagDesc"/>
 		<effect_group tiered="false">
@@ -300,7 +302,7 @@
 	</item_modifier>
 
 	<!-- Bloodprice: +50% -> +80% damage, kills heal 20 / 24 / 28 / 32 / 35 | starting a reload costs 5 / 4 / 3 / 2 / 1 health -->
-	<item_modifier name="auPerkBloodprice" modifier_tags="auPerk,auCorrupted" type="attachment">
+	<item_modifier name="auPerkBloodprice" modifier_tags="auPerk,auCorrupted,auGunOnly" type="attachment">
 		<property name="CreativeMode" value="None"/>
 		<property name="DescriptionKey" value="auPerkBloodpriceDesc"/>
 		<effect_group tiered="false">
@@ -354,7 +356,7 @@
 	</item_modifier>
 
 	<!-- Wildcat: +35% -> +60% damage, +25% -> +40% fire rate | +60% -> +20% recoil -->
-	<item_modifier name="auPerkWildcat" modifier_tags="auPerk,auCorrupted" type="attachment">
+	<item_modifier name="auPerkWildcat" modifier_tags="auPerk,auCorrupted,auGunOnly" type="attachment">
 		<property name="CreativeMode" value="None"/>
 		<property name="DescriptionKey" value="auPerkWildcatDesc"/>
 		<effect_group tiered="false">
@@ -382,5 +384,141 @@
 		</effect_group>
 	</item_modifier>
 
+</append>
+
+<!--
+  1.1.0 TOOL PERKS (AJ 2026-11-02). Tag auToolOnly: the bench and console only put them on items tagged tool,
+  toolButcher (knives, cleavers, machetes) or sledge. Read from V2.6 b14 + UL 2.7.40's merged config:
+    - HarvestCount is queried with the harvest type as tags (UL: oreHarvest, woodHarvest, allToolsHarvest, butcherHarvest).
+    - ItemActionDynamic.GetDamageBlock ORs the hit block's own Tags into the BlockDamage query, so tags="wood" = wood blocks only.
+    - Lucky Strike: a passive in a quality-band group with a RandomRoll requirement, rolled each time the yield is read.
+    - Earthshaker: the AuAreaBlockDamage action (src/ToolPerks.cs) on onSelfDamagedBlock.
+-->
+<append xpath="/item_modifiers">
+	<!-- Prospector: +15% -> +50% harvest yield (ore, stone, wood, soil) -->
+	<item_modifier name="auPerkProspector" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkProspectorDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="HarvestCount" operation="perc_add" value=".15,.5" tier="1,90" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Demolisher: +20% -> +60% damage to blocks -->
+	<item_modifier name="auPerkDemolisher" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkDemolisherDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="BlockDamage" operation="perc_add" value=".2,.6" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Tireless: -15% -> -40% stamina per swing -->
+	<item_modifier name="auPerkTireless" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkTirelessDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="StaminaLoss" operation="perc_add" value="-.15,-.4" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Quick Swing: +10% -> +30% swing speed -->
+	<item_modifier name="auPerkQuickSwing" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkQuickSwingDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="AttacksPerMinute" operation="perc_add" value=".1,.3" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Feller: +30% -> +80% damage to trees and wood blocks -->
+	<item_modifier name="auPerkFeller" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkFellerDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="BlockDamage" operation="perc_add" value=".3,.8" tier="1,90" tags="wood"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Butcher: +20% -> +60% meat, hide and bone from corpses -->
+	<item_modifier name="auPerkButcher" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkButcherDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="HarvestCount" operation="perc_add" value=".2,.6" tier="1,90" tags="butcherHarvest"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Steady Edge: -20% -> -60% wear per hit -->
+	<item_modifier name="auPerkSteadyEdge" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkSteadyEdgeDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="DegradationPerUse" operation="perc_add" value="-.2,-.6" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- Lucky Strike: 3 / 6 / 9 / 12 / 15% chance (by quality band) that a harvest gives double -->
+	<item_modifier name="auPerkLuckyStrike" modifier_tags="auPerk,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkLuckyStrikeDesc"/>
+		<effect_group tiered="false">
+			<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="1" max="20"/>
+			<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="3"/>
+			<passive_effect name="HarvestCount" operation="perc_add" value="1" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+		</effect_group>
+		<effect_group tiered="false">
+			<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="21" max="40"/>
+			<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="6"/>
+			<passive_effect name="HarvestCount" operation="perc_add" value="1" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+		</effect_group>
+		<effect_group tiered="false">
+			<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="41" max="60"/>
+			<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="9"/>
+			<passive_effect name="HarvestCount" operation="perc_add" value="1" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+		</effect_group>
+		<effect_group tiered="false">
+			<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="61" max="80"/>
+			<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="12"/>
+			<passive_effect name="HarvestCount" operation="perc_add" value="1" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+		</effect_group>
+		<effect_group tiered="false">
+			<requirement name="ArmoryUnbound.AuPerkQuality, ArmoryUnbound" min="81" max="90"/>
+			<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="15"/>
+			<passive_effect name="HarvestCount" operation="perc_add" value="1" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- CORRUPTED Overdrive: +50% -> +90% block damage | +40% -> +10% stamina per swing -->
+	<item_modifier name="auPerkOverdrive" modifier_tags="auPerk,auCorrupted,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkOverdriveDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="BlockDamage" operation="perc_add" value=".5,.9" tier="1,90"/>
+			<passive_effect name="StaminaLoss" operation="perc_add" value=".4,.1" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- CORRUPTED Greedy: +60% -> +100% harvest yield | -30% -> -10% durability -->
+	<item_modifier name="auPerkGreedy" modifier_tags="auPerk,auCorrupted,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkGreedyDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="HarvestCount" operation="perc_add" value=".6,1" tier="1,90" tags="oreHarvest,woodHarvest,allToolsHarvest"/>
+			<passive_effect name="DegradationMax" operation="perc_add" value="-.3,-.1" tier="1,90"/>
+		</effect_group>
+	</item_modifier>
+
+	<!-- CORRUPTED Earthshaker: hits also damage the 4 blocks around the one hit for 30% -> 60% of the hit | +60% -> +20% wear per hit -->
+	<item_modifier name="auPerkEarthshaker" modifier_tags="auPerk,auCorrupted,auToolOnly" type="attachment">
+		<property name="CreativeMode" value="None"/>
+		<property name="DescriptionKey" value="auPerkEarthshakerDesc"/>
+		<effect_group tiered="false">
+			<passive_effect name="DegradationPerUse" operation="perc_add" value=".6,.2" tier="1,90"/>
+		</effect_group>
+		<effect_group tiered="false">
+			<triggered_effect trigger="onSelfDamagedBlock" action="AuAreaBlockDamage, ArmoryUnbound" from="0.3" to="0.6"/>
+		</effect_group>
+	</item_modifier>
 </append>
 </configs>

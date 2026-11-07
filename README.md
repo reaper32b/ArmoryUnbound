@@ -1,8 +1,10 @@
 # Armory Unbound
 
-**Version 1.0.0 Beta** - an Undead Legacy add-on for 7 Days to Die.
+**Version 1.1.0 Beta** - an Undead Legacy add-on for 7 Days to Die.
 
-Forge any gun into your own unique at the Gunsmith Bench. Engrave a name, add perks from perk parts, and give it a skin.
+**Download:** [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/13670) or [GitHub Releases](https://github.com/reaper32b/ArmoryUnbound/releases)
+
+Forge any gun, bow, melee weapon or tool into your own unique at the Gunsmith Bench. Engrave a name, add perks from perk parts, and give it a skin.
 Every gun you make is one of a kind and stays that way.
 
 ## Features
@@ -13,7 +15,8 @@ Every gun you make is one of a kind and stays that way.
 - **Removable perks.** Put a Repair Kit in the part slot to take a perk off. Its part comes back at the same quality, so you can upgrade it and put it back on.
 - **Perk parts.** Craft them at the bench (they start at quality 1) and upgrade them at Undead Legacy's Maintenance Station. You can also find them in loot or buy them from traders.
 - **Corrupted perks.** 8 stronger perks with a drawback. Found only in hardened chests (tier 4 and 5). Higher quality means a bigger upside and a smaller drawback.
-- **Skins.** 10 starter patterns, plus your own images. They show on the gun in your hands, first and third person. A Paint Removal Kit scrubs a skin off.
+- **Melee weapons, tools and bows** (1.1.0). Everything with a quality level goes on the bench. Perks that would do nothing on them (magazine, reload, fire rate, recoil) are refused.
+- **Skins.** 10 starter patterns, plus your own images. They show on the item in your hands, first and third person. On guns, sights, barrels, magazines and working parts stay stock (`Skins\stock_parts.txt`); on melee weapons, tools and bows a skin covers what a dye would colour. A Paint Removal Kit scrubs a skin off.
 - **"AU" tag.** Every Armory Unbound item name starts with "AU", so typing `AU` in any search box finds them all.
 
 ## Requirements
@@ -51,20 +54,20 @@ The bench's **CRAFTING** tab makes perk parts, skins and Paint Removal Kits.
 
 ### Perk parts
 
-| Perk | Effect (Q1 to Q90) | Extra ingredient |
-|---|---|---|
-| Hard Hitter | +15-35% damage | 50 gunpowder |
-| Deep Well | +25-75% magazine size | 5 duct tape |
-| Quickhands | +15-40% reload speed | 5 oil |
-| Ironclad | +50-150% durability | 10 more forged steel |
-| Executioner | +30-90% headshot damage | 5 electrical parts |
-| Second Wind | kills restore 8-25 health | 3 bandages |
-| Bloodletter | hits cause bleeding, 40-100% of the time | 50 buckshot |
-| Kindling | hits set the target on fire, 40-100% of the time | 20 coal |
-| Can Opener | ignores 20-50% of armour; hits shred armour | 2 acid |
-| Sledge | 10-30% knockdown chance per hit | 20 forged iron |
-| Tar Pit | hits slow the target, 40-100% of the time | 5 glue |
-| Scholar | +10-35% XP while held | 20 paper |
+| Perk | Effect (Q1 to Q90) | Extra ingredient | Works on |
+|---|---|---|---|
+| Hard Hitter | +15-35% damage | 50 gunpowder | Guns, bows, melee, tools |
+| Deep Well | +25-75% magazine size | 5 duct tape | Guns only |
+| Quickhands | +15-40% reload speed | 5 oil | Guns, bows |
+| Ironclad | +50-150% durability | 10 more forged steel | Guns, bows, melee, tools |
+| Executioner | +30-90% headshot damage | 5 electrical parts | Guns, bows, melee, tools |
+| Second Wind | kills restore 8-25 health | 3 bandages | Guns, bows, melee, tools |
+| Bloodletter | hits cause bleeding, 40-100% of the time | 50 buckshot | Guns, bows, melee, tools |
+| Kindling | hits set the target on fire, 40-100% of the time | 20 coal | Guns, bows, melee, tools |
+| Can Opener | ignores 20-50% of armour; hits shred armour | 2 acid | Guns, bows, melee, tools |
+| Sledge | 10-30% knockdown chance per hit | 20 forged iron | Guns, bows, melee, tools |
+| Tar Pit | hits slow the target, 40-100% of the time | 5 glue | Guns, bows, melee, tools |
+| Scholar | +10-35% XP while held | 20 paper | Guns, bows, melee, tools |
 
 Every part also costs 5 forged steel, 10 mechanical parts and 4 springs. The panel and tooltips show the exact number for a part's quality.
 
@@ -74,16 +77,33 @@ Every part also costs 5 forged steel, 10 mechanical parts and 4 springs. The pan
 
 Loot only (hardened chests, tier 4 and 5). Upgrades cost double.
 
-| Perk | Upside | Drawback (shrinks with quality) |
+| Perk | Upside | Drawback (shrinks with quality) | Works on |
+|---|---|---|---|
+| Glass Cannon | +60-100% damage | -40 to -10% durability | Guns, bows, melee, tools |
+| Overclock | +40-70% fire rate | +50 to +15% wear per shot | Guns, bows |
+| Hungry Mag | +100-150% magazine size | -25 to -5% reload speed | Guns only |
+| Deadeye | +120-200% headshot damage | -20 to -5% damage elsewhere | Guns, bows, melee, tools |
+| Bloodprice | +50-80% damage, kills heal 20-35 | starting a reload costs 5 to 1 health | Guns, bows |
+| Leech | hits heal 10-20% of the damage dealt | -15 to -5% max stamina while held | Guns, bows, melee, tools |
+| Wildcat | +35-60% damage, +25-40% fire rate | +60 to +20% recoil | Guns, bows |
+| Hellfire | hits always burn and bleed | +100 to +30% noise | Guns, bows, melee, tools |
+
+### Tool perk parts (1.1.0, tools only)
+
+Tools are axes, picks, shovels, hammers, wrenches, sickles, knives, machetes and sledgehammers (items tagged `tool`, `toolButcher` or `sledge`).
+
+| Perk | Effect (Q1 to Q90) | Extra ingredient |
 |---|---|---|
-| Glass Cannon | +60-100% damage | -40 to -10% durability |
-| Overclock | +40-70% fire rate | +50 to +15% wear per shot |
-| Hungry Mag | +100-150% magazine size | -25 to -5% reload speed |
-| Deadeye | +120-200% headshot damage | -20 to -5% damage elsewhere |
-| Bloodprice | +50-80% damage, kills heal 20-35 | starting a reload costs 5 to 1 health |
-| Leech | hits heal 10-20% of the damage dealt | -15 to -5% max stamina while held |
-| Wildcat | +35-60% damage, +25-40% fire rate | +60 to +20% recoil |
-| Hellfire | hits always burn and bleed | +100 to +30% noise |
+| Prospector | +15-50% harvest yield (ore, stone, wood, soil) | 50 scrap iron |
+| Demolisher | +20-60% damage to blocks | 10 concrete mix |
+| Tireless | -15-40% stamina per swing | 3 jars of coffee |
+| Quick Swing | +10-30% swing speed | 5 leather |
+| Feller | +30-80% damage to trees and wood blocks | 100 wood |
+| Butcher | +20-60% meat, hide and bone from corpses | 10 animal fat |
+| Steady Edge | -20-60% wear per hit | 20 clay |
+| Lucky Strike | 3-15% chance a harvest gives double | 100 casino coins |
+
+Corrupted (hardened chests only): **Overdrive** +50-90% block damage, but +40 to +10% stamina per swing; **Greedy** +60-100% harvest yield, but -30 to -10% durability; **Earthshaker** hits also damage the 4 blocks around the one you hit for 30-60% of the hit, but +60 to +20% wear per hit.
 
 ### Where to find parts and skins
 

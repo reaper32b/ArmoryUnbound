@@ -17,7 +17,9 @@ namespace ArmoryUnbound
     // No "<perkId>At" key -> the range description "<perkId>Desc".
     public static class PerkText
     {
-        private static readonly Regex Token = new Regex(@"\{([PT]):(\w+)(?::(\d+))?(?::(abs))?\}", RegexOptions.Compiled);
+        //   {R:Passive}             1.1.0: the RandomRoll chance (%) of the passive of that name whose effect group's AuPerkQuality
+        //                           band holds q (chance-based passives such as Lucky Strike).
+        private static readonly Regex Token = new Regex(@"\{([PTR]):(\w+)(?::(\d+))?(?::(abs))?\}", RegexOptions.Compiled);
         private static readonly HashSet<string> warned = new HashSet<string>();
 
         public static string At(string perkId, int quality)
@@ -33,7 +35,8 @@ namespace ArmoryUnbound
                 {
                     int n = m.Groups[3].Success ? int.Parse(m.Groups[3].Value, CultureInfo.InvariantCulture) : 1;
                     bool abs = m.Groups[4].Success;
-                    float? v = m.Groups[1].Value == "P" ? Passive(ic, m.Groups[2].Value, n, q) : Triggered(ic, m.Groups[2].Value, n, q);
+                    string kind = m.Groups[1].Value;
+                    float? v = kind == "P" ? Passive(ic, m.Groups[2].Value, n, q) : kind == "R" ? PassiveRoll(ic, m.Groups[2].Value, q) : Triggered(ic, m.Groups[2].Value, n, q);
                     if (v == null)
                     {
                         lock (warned) { if (warned.Add(perkId + m.Value)) Log.Warning("[ArmoryUnbound] perk text " + perkId + "At: no effect for " + m.Value); }
@@ -73,6 +76,27 @@ namespace ArmoryUnbound
                     if (p == null || p.Type != type) continue;
                     if (++seen == n) return ValueAt(p.Levels, p.Values, q);
                 }
+            }
+            return null;
+        }
+
+        private static float? PassiveRoll(ItemClassModifier ic, string name, int q)
+        {
+            PassiveEffects type;
+            try { type = (PassiveEffects)Enum.Parse(typeof(PassiveEffects), name); } catch (Exception) { return null; }
+            foreach (MinEffectGroup g in ic.Effects.EffectGroups)
+            {
+                if (g == null || g.PassiveEffects == null || g.Requirements == null || g.Requirements.reqs == null) continue;
+                bool has = false;
+                foreach (PassiveEffect p in g.PassiveEffects) if (p != null && p.Type == type) { has = true; break; }
+                if (!has) continue;
+                AuPerkQuality band = null; RandomRoll roll = null;
+                foreach (IRequirement r in g.Requirements.reqs)
+                {
+                    if (r is AuPerkQuality) band = (AuPerkQuality)r;
+                    else if (r is RandomRoll) roll = (RandomRoll)r;
+                }
+                if (band != null && roll != null && q >= band.Min && q <= band.Max) return roll.value;
             }
             return null;
         }

@@ -25,7 +25,7 @@ namespace ArmoryUnbound
     // Shared in memory per (skin, source texture): two guns of one type with the same skin cost one copy.
     public static class SkinBuilder
     {
-        public const int Version = 2;          // bump when the output changes: old cache files are dropped
+        public const int Version = 3;          // 3: masks (1.1.0)          // bump when the output changes: old cache files are dropped
         private const int FingerprintSize = 16;
         private const bool HighQualityCompress = false; // Unity's dithered mode is slower; see build log 7.3
 
@@ -36,6 +36,8 @@ namespace ArmoryUnbound
             public string Key;
             public SkinInfo Skin;
             public Texture Source;
+            public MaskSpec Mask;           // 1.1.0: null = whole texture
+            public byte[] MetalPx;          // metallic map read back at W x H (metal masks)
             public string SourceName, FormatName;
             public int W, H;
             public bool Srgb;
@@ -84,9 +86,9 @@ namespace ArmoryUnbound
             }
         }
 
-        private static string KeyOf(string skinId, Texture src)
+        private static string KeyOf(string skinId, Texture src, MaskSpec mask)
         {
-            return skinId + "|" + src.GetInstanceID();
+            return skinId + "|" + src.GetInstanceID() + (mask == null ? "" : "|" + mask.Id + (mask.Metal != null ? "#" + mask.Metal.GetInstanceID() : ""));
         }
 
         public static void MainLog(bool warning, string msg)
@@ -96,9 +98,14 @@ namespace ArmoryUnbound
 
         public static Texture2D TryGet(string skinId, Texture src)
         {
+            return TryGet(skinId, src, null);
+        }
+
+        public static Texture2D TryGet(string skinId, Texture src, MaskSpec mask)
+        {
             if (src == null) return null;
             Texture2D t;
-            if (built.TryGetValue(KeyOf(skinId, src), out t) && t != null) return t;
+            if (built.TryGetValue(KeyOf(skinId, src, mask), out t) && t != null) return t;
             return null;
         }
 
@@ -106,8 +113,13 @@ namespace ArmoryUnbound
         // If the build fails it is never called; the gun just stays stock (one warning).
         public static void Request(SkinInfo skin, Texture src, Action<Texture2D> ready)
         {
+            Request(skin, src, null, ready);
+        }
+
+        public static void Request(SkinInfo skin, Texture src, MaskSpec mask, Action<Texture2D> ready)
+        {
             if (skin == null || src == null) return;
-            string key = KeyOf(skin.Id, src);
+            string key = KeyOf(skin.Id, src, mask);
             Texture2D t;
             if (built.TryGetValue(key, out t) && t != null)
             {
@@ -126,6 +138,7 @@ namespace ArmoryUnbound
             job.Key = key;
             job.Skin = skin;
             job.Source = src;
+            job.Mask = mask;
             job.SourceName = src.name;
             job.FormatName = src.graphicsFormat.ToString();
             job.W = src.width;
@@ -217,7 +230,8 @@ namespace ArmoryUnbound
         {
             uint h = 2166136261;   // FNV-1a
             for (int i = 0; i < px.Length; i++) { h ^= px[i]; h *= 16777619; }
-            job.CachePath = SkinCache.Enabled ? SkinCache.PathFor(job.Skin, job.SourceName, job.W, job.H, job.FormatName, h.ToString("x8")) : null;
+            string cacheName = job.Mask == null ? job.SourceName : job.SourceName + "_" + job.Mask.Id;
+            job.CachePath = SkinCache.Enabled ? SkinCache.PathFor(job.Skin, cacheName, job.W, job.H, job.FormatName, h.ToString("x8")) : null;
             if (job.CachePath == null)
             {
                 job.Next = Stage.Readback;
@@ -269,8 +283,30 @@ namespace ArmoryUnbound
                     Fail(job, "readback returned " + px.Length + " bytes for " + job.W + "x" + job.H);
                     return;
                 }
+                if (job.Mask != null && job.Mask.Metal != null)
+                {
+                    // second readback: the metallic map at the same size, linear (it's data, not colour)
+                    RenderTexture mrt = BlitTex(job.Mask.Metal, job.W, job.H, false);
+                    ReadBack(job, mrt, job.W, job.H, delegate (byte[] mpx)
+                    {
+                        if (mpx.Length < job.W * job.H * 4) { Fail(job, "metallic map readback returned " + mpx.Length + " bytes"); return; }
+                        job.MetalPx = mpx;
+                        ThreadPool.QueueUserWorkItem(delegate (object o) { Recolour((Job)o); }, job);
+                    });
+                    return;
+                }
                 ThreadPool.QueueUserWorkItem(delegate (object o) { Recolour((Job)o); }, job);
             });
+        }
+
+        private static RenderTexture BlitTex(Texture src, int w, int h, bool srgb)
+        {
+            RenderTexture rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.ARGB32,
+                srgb ? RenderTextureReadWrite.sRGB : RenderTextureReadWrite.Linear);
+            RenderTexture prev = RenderTexture.active;
+            Graphics.Blit(src, rt);
+            RenderTexture.active = prev;
+            return rt;
         }
 
         private static RenderTexture Blit(Job job, int w, int h)
@@ -397,6 +433,8 @@ namespace ArmoryUnbound
 
             int tile = Math.Max(256, W / 4);
             Color32[] t = Tile(job.Skin.Id, tile);
+            MaskSpec mask = job.Mask;
+            byte[] orig = mask != null ? (byte[])a.Clone() : null;   // 1.1.0: blend skin <-> original by the mask
 
             for (int y = 0, i = 0; y < H; y++)
             {
@@ -412,6 +450,17 @@ namespace ArmoryUnbound
                     a[p + 1] = Clamp(c.g * shade);
                     a[p + 2] = Clamp(c.b * shade);
                     // a[p + 3] (alpha) kept
+                    if (mask != null)
+                    {
+                        float w = mask.FilePx != null ? SkinMask.FromFile(mask, x, y, W, H)
+                                : job.MetalPx != null ? SkinMask.FromMetal(job.MetalPx[p]) : 1f;
+                        if (w < 1f)
+                        {
+                            a[p] = Clamp(orig[p] + (a[p] - orig[p]) * w + 0.5f);
+                            a[p + 1] = Clamp(orig[p + 1] + (a[p + 1] - orig[p + 1]) * w + 0.5f);
+                            a[p + 2] = Clamp(orig[p + 2] + (a[p + 2] - orig[p + 2]) * w + 0.5f);
+                        }
+                    }
                 }
             }
         }

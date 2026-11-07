@@ -31,15 +31,50 @@ namespace ArmoryUnbound
 
         public enum AddPerkResult { Added, Full, Invalid }
 
-        // Guns only: first action is ranged; bows/crossbows (ItemActionCatapult) excluded.
-        // (ItemClass.IsGun() is true for melee too - it only checks ItemActionAttack.)
+        // Guns: first action is ranged; bows (ItemActionCatapult) are their own kind. Crossbows are ItemActionLauncher
+        // (a ranged action) and count as guns, as in 1.0. (ItemClass.IsGun() is true for melee too - it only checks
+        // ItemActionAttack.) Unchanged from 1.0 so guns behave exactly as before.
         public static bool IsGun(ItemValue iv)
         {
-            if (iv == null || iv.IsEmpty()) return false;
+            return KindOf(iv) == ItemKind.Gun;
+        }
+
+        // What the bench can work on (1.1.0, melee scope). Decided by the first action's class, not tags (IZY's tags
+        // are unreliable), read from Assembly-CSharp V2.6 b14 + the mods' DLLs:
+        //   Gun   - ItemActionRanged and subclasses (Launcher: crossbows, rocket launcher, nailgun; UL's ULM_Ranged;
+        //           note UL's chainsaw and auger are Ranged too, so they stay "guns"), except Catapult.
+        //   Bow   - ItemActionCatapult (primitive, wooden, compound bow).
+        //   Melee - ItemActionDynamic and subclasses: DynamicMelee (clubs, blades, knuckles, spears, sledges, axes,
+        //           picks, shovels, hammers, wrenches), UL's ULM_MeleeAoE (sickles), Prospect (prospector pick),
+        //           DensityHoe. Bare hands, torch and flashlight are DynamicMelee too: they have no quality, so the
+        //           HasQuality check keeps them out (perks need mod slots and a quality item anyway).
+        public enum ItemKind { None, Gun, Bow, Melee }
+
+        public static ItemKind KindOf(ItemValue iv)
+        {
+            if (iv == null || iv.IsEmpty()) return ItemKind.None;
             ItemClass ic = iv.ItemClass;
-            if (ic == null || ic.Actions == null || ic.Actions.Length == 0) return false;
+            if (ic == null || ic.Actions == null || ic.Actions.Length == 0) return ItemKind.None;
             ItemAction a = ic.Actions[0];
-            return a is ItemActionRanged && !(a is ItemActionCatapult);
+            if (a == null) return ItemKind.None;
+            if (a is ItemActionCatapult) return ic.HasQuality ? ItemKind.Bow : ItemKind.None;
+            if (a is ItemActionRanged) return ItemKind.Gun;
+            if (a is ItemActionDynamic) return ic.HasQuality ? ItemKind.Melee : ItemKind.None;
+            return ItemKind.None;
+        }
+
+        // Anything the Gunsmith Bench, the console and the skins work on.
+        public static bool IsSupported(ItemValue iv)
+        {
+            return KindOf(iv) != ItemKind.None;
+        }
+
+        // Melee weapons, tools and bows: skins follow the dye rule (only what a dye colours) instead of the
+        // gun word list (AJ 2026-11-02).
+        public static bool UsesDyeRule(ItemValue iv)
+        {
+            ItemKind k = KindOf(iv);
+            return k == ItemKind.Melee || k == ItemKind.Bow;
         }
 
         public static int ClampQuality(int q)

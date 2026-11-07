@@ -1,4 +1,4 @@
-# Armory Unbound - parts of a skinned gun that stay stock.
+﻿# Armory Unbound - parts of a skinned gun that stay stock.
 # One word per line. A part stays stock if the word appears anywhere in its name, a parent's name
 # or its texture name (not case-sensitive). Lines starting with # are ignored. Delete a word to skin
 # that part. After editing: "au parts reload" in the console (F1), or restart the game.
@@ -18,3 +18,30 @@ muzzle
 magazine
 mag_
 drum
+
+# first-person hands inside the gun model (IZY: *_Gloves_BASE, SteelGlove/IronGlove parts). Not 'hand' - IZY parents every gun part under 'Handgroups'.
+glove
+# IZY first-person arms. NOT 'hand_group': on some IZY pistols (Makarov) the first-person gun hangs off the hand bone under Hand_group_Right.
+# bare hands, forearm armour plates, wrist wraps, arm pouches, crossbow darts (ammo):
+hand_raw
+armormod
+handwarp
+porch
+dart
+# functional parts (AJ 2026-11-02): controls, moving action parts, gas block, bipod. EFTX: trigger_/hammer_/catch_/charge_/gas_; IZY: trigger_low, safety_low, BOLT_MOV, chargingHandleMOV, MAG_catch_PIV.
+# 'charg' covers EFTX charge_ and IZY chargingHandle.
+trigger
+hammer
+# IZY spells it 'Hummer' on the Makarov
+hummer
+safety
+selector
+catch
+release
+bolt
+charg
+gas
+bipod
+# crossbow ammo held in the model (bows: built-in rule)
+arrow
+projectile
